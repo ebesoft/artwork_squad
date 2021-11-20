@@ -1,1 +1,1 @@
-# artwork_squad
+# ArtWork Squad
