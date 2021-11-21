@@ -1,5 +1,6 @@
 import 'package:artwork_squad/src/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,7 +17,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Material App Bar'),
+        title: Text('ARTwork Squad', style: TextStyle(color: Colors.black)),
+        centerTitle: true,
+        backgroundColor: Colors.white,
       ),
       body: SafeArea(
         child: Center(
@@ -26,6 +29,12 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 SizedBox(
                   height: 20,
+                ),
+                Flexible(
+                  child: Image.asset(
+                    'assets/logo/artworksquad.png',
+                    height: 600,
+                  ),
                 ),
                 Text(
                   "Iniciar sesión",
