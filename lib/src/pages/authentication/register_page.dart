@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final _textController = TextEditingController();
   final _passController = TextEditingController();
+  final _confirmController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +40,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Text(
-                  "Iniciar sesión",
+                  "Registrarse",
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 TextField(
-                  controller: _textController,
-                  keyboardType: TextInputType.emailAddress,
+                  controller: _passController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Ingresar su correo',
@@ -55,11 +55,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Divider(),
                 TextField(
-                  controller: _passController,
+                  controller: _textController,
                   obscureText: true,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Ingresar contraseña',
+                  ),
+                ),
+                Divider(),
+                TextField(
+                  controller: _confirmController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'confirmar contraseña',
                   ),
                 ),
                 SizedBox(
@@ -76,15 +85,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         Get.offNamed(HOME_ROUTE, arguments: name);
                       }
                     },
-                    child: Text("Iniciar")),
+                    child: Text("Enviar")),
                 SizedBox(
                   height: 20,
                 ),
                 TextButton(
                     onPressed: () {
-                      Get.toNamed(SIGNUP_ROUTE);
+                      Get.toNamed(LOGIN_ROUTE);
                     },
-                    child: Text("Registrarse"))
+                    child: Text("Iniciar sesión"))
               ],
             ),
           ),
