@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
         title:
             Text('ARTwork Squad', style: TextStyle(color: Colors.blueAccent)),
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black87,
       ),
       body: SafeArea(
         child: Center(

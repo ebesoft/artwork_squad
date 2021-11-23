@@ -22,7 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         title:
             Text('ARTwork Squad', style: TextStyle(color: Colors.blueAccent)),
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black87,
       ),
       body: SafeArea(
         child: Center(

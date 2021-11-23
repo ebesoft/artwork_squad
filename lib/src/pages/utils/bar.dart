@@ -6,7 +6,7 @@ class MyAppBar {
   getAppBar(BuildContext context) {
     return AppBar(
       leading: Icon(Icons.menu),
-      title: Text('Artwork Squad'),
+      title: Text('Artwork Squad', style: TextStyle(color: Colors.blueAccent)),
       actions: <Widget>[
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
@@ -29,7 +29,7 @@ class MyAppBar {
                 IconButton(icon: Icon(Icons.chat_outlined), onPressed: () {})),
         //Icon(Icons.more_vert), Puntos vrticales
       ],
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.black87,
     );
   }
 }
