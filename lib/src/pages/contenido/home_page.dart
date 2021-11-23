@@ -1,20 +1,16 @@
+import 'package:artwork_squad/src/pages/utils/bar.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
-class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Material App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Material App Bar'),
-        ),
-        body: Center(
-          child: Container(
-            child: Text('Hello World'),
-          ),
+    return Scaffold(
+      appBar: new MyAppBar().getAppBar(context),
+      body: Center(
+        child: Container(
+          child: Text('Hello World'),
         ),
       ),
     );
