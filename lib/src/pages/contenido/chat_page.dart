@@ -1,5 +1,6 @@
 import 'dart:math';
-import 'package:artwork_squad/entity/ChatClass.dart';
+
+import 'package:artwork_squad/src/entity/ChatClass.dart';
 import 'package:artwork_squad/src/pages/utils/bar.dart';
 import 'package:flutter/material.dart';
 
@@ -30,48 +31,52 @@ class _ChatScreenState extends State<ChatScreen> {
     }
 
     var temporalData;
-    return new ListView.builder(
-      itemCount: temporalData.length,
-      itemBuilder: (context, i) => new Column(
-        children: <Widget>[
-          new Divider(
-            height: 5.0,
-          ),
-          new ListTile(
-            leading: new CircleAvatar(
-              foregroundColor: Theme.of(context).primaryColor,
-              backgroundColor: Colors.grey,
-              backgroundImage: new NetworkImage(temporalData[i].avatarUrl),
+    return new Scaffold(
+      appBar: new MyAppBar().getAppBar(context),
+      body: new ListView.builder(
+        itemCount: temporalData.length,
+        itemBuilder: (context, i) => new Column(
+          children: <Widget>[
+            new Divider(
+              height: 5.0,
             ),
-            title: new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                new Text(
-                  temporalData[i].name,
-                  style: new TextStyle(fontWeight: FontWeight.bold),
-                ),
-                new Text(
-                  temporalData[i].time,
-                  style: new TextStyle(color: Colors.grey, fontSize: 14.0),
-                ),
-              ],
-            ),
-            subtitle: new Container(
-                padding: const EdgeInsets.only(top: 5.0),
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    new Text(
-                      temporalData[i].message,
-                      style: new TextStyle(color: Colors.grey, fontSize: 15.0),
-                    ),
-                    temporalData[i].newMessage == 1
-                        ? notificationCircle(Random().nextInt(5) + 1)
-                        : new Container()
-                  ],
-                )),
-          )
-        ],
+            new ListTile(
+              leading: new CircleAvatar(
+                foregroundColor: Theme.of(context).primaryColor,
+                backgroundColor: Colors.grey,
+                backgroundImage: new NetworkImage(temporalData[i].avatarUrl),
+              ),
+              title: new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  new Text(
+                    temporalData[i].name,
+                    style: new TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  new Text(
+                    temporalData[i].time,
+                    style: new TextStyle(color: Colors.grey, fontSize: 14.0),
+                  ),
+                ],
+              ),
+              subtitle: new Container(
+                  padding: const EdgeInsets.only(top: 5.0),
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      new Text(
+                        temporalData[i].message,
+                        style:
+                            new TextStyle(color: Colors.grey, fontSize: 15.0),
+                      ),
+                      temporalData[i].newMessage == 1
+                          ? notificationCircle(Random().nextInt(5) + 1)
+                          : new Container()
+                    ],
+                  )),
+            )
+          ],
+        ),
       ),
     );
   }
