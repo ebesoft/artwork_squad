@@ -1,3 +1,4 @@
+import 'package:artwork_squad/src/pages/chat/chatDetailPage.dart';
 import 'package:flutter/material.dart';
 
 // Devuelve la plantilla que contiene los valores.
@@ -25,7 +26,11 @@ class _ChatListState extends State<ChatList> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return ChatDetailPage();
+        }));
+      },
       child: Container(
         padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
         child: Row(

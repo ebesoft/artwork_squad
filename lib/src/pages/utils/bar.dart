@@ -19,8 +19,8 @@ class MyAppBar {
               title: TextButton(
                 onPressed: () => theme.setTheme(ThemeData(
                     brightness: Brightness.light,
-                    primaryColor: Colors.lime,
-                    backgroundColor: Colors.lime)),
+                    primaryColor: Colors.white,
+                    backgroundColor: Colors.white)),
                 child: Text('Tema Light'),
               ),
             ),

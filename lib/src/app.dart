@@ -18,9 +18,8 @@ class App extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (_) => ThemeChanger(ThemeData(
             brightness: Brightness.light,
-            primaryColor: Colors.lime,
-            backgroundColor: Colors.lime)),
-        //create: (BuildContext context) {  },
+            primaryColor: Colors.white,
+            backgroundColor: Colors.white)),
         child: MaterialAppTheme());
   }
 }
@@ -48,12 +47,10 @@ class MaterialAppTheme extends StatelessWidget {
             name: HOME_ROUTE,
             page: () => HomeScreen(),
             transition: Transition.zoom),
-
         GetPage(
             name: CHAT_ROUTE,
             page: () => ChatListScreen(),
             transition: Transition.zoom),
-
       ],
     );
   }
