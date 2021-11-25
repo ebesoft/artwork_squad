@@ -1,7 +1,9 @@
+import 'package:artwork_squad/blocs/theme.dart';
 import 'package:artwork_squad/src/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

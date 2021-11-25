@@ -17,8 +17,6 @@ class _HomeScreenState extends State<HomeScreen> {
         //children: Container(
         children: [
           Card(
-            clipBehavior: Clip.antiAlias,
-            color: Colors.black87,
             child: Column(
               children: [
                 ListTile(
@@ -26,30 +24,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     backgroundImage: AssetImage('../assets/avatar/avatar1.png'),
                     backgroundColor: Colors.transparent,
                   ),
-                  title: const Text('Card title 1',
-                      style: TextStyle(color: Colors.blueAccent)),
-                  subtitle: Text(
-                    'Secondary Text',
-                    style: TextStyle(color: Colors.white.withOpacity(0.6)),
-                  ),
+                  title: const Text('Card title 1'),
+                  subtitle: Text('Secondary Text'),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                      'Greyhound divisively hello coldly wonderfully marginally far upon excluding.'),
                 ),
                 ButtonBar(
                   alignment: MainAxisAlignment.start,
                   children: [
                     IconButton(
                         icon: Icon(Icons.favorite_outline_sharp),
-                        color: Colors.white,
                         onPressed: () {}),
                     IconButton(
                         icon: Icon(Icons.comment_bank_outlined),
-                        color: Colors.white,
                         onPressed: () {}),
                   ],
                 ),
@@ -59,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Card(
             clipBehavior: Clip.antiAlias,
-            color: Colors.black87,
             child: Column(
               children: [
                 ListTile(
@@ -67,30 +56,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     backgroundImage: AssetImage('../assets/avatar/avatar3.jpg'),
                     backgroundColor: Colors.transparent,
                   ),
-                  title: const Text('Card title 2',
-                      style: TextStyle(color: Colors.blueAccent)),
-                  subtitle: Text(
-                    'Secondary Text',
-                    style: TextStyle(color: Colors.white.withOpacity(0.6)),
-                  ),
+                  title: const Text('Card title 2'),
+                  subtitle: Text('Secondary Text'),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                      'Greyhound divisively hello coldly wonderfully marginally far upon excluding.'),
                 ),
                 ButtonBar(
                   alignment: MainAxisAlignment.start,
                   children: [
                     IconButton(
-                        icon: Icon(Icons.favorite_sharp),
-                        color: Colors.red,
-                        onPressed: () {}),
+                        icon: Icon(Icons.favorite_sharp), onPressed: () {}),
                     IconButton(
                         icon: Icon(Icons.comment_bank_outlined),
-                        color: Colors.white,
                         onPressed: () {}),
                   ],
                 ),
@@ -100,7 +80,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Card(
             clipBehavior: Clip.antiAlias,
-            color: Colors.black87,
             child: Column(
               children: [
                 ListTile(
@@ -108,30 +87,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     backgroundImage: AssetImage('../assets/avatar/avatar2.jpg'),
                     backgroundColor: Colors.transparent,
                   ),
-                  title: const Text('Card title 3',
-                      style: TextStyle(color: Colors.blueAccent)),
-                  subtitle: Text(
-                    'Secondary Text',
-                    style: TextStyle(color: Colors.white.withOpacity(0.6)),
-                  ),
+                  title: const Text('Card title 3'),
+                  subtitle: Text('Secondary Text'),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                      'Greyhound divisively hello coldly wonderfully marginally far upon excluding.'),
                 ),
                 ButtonBar(
                   alignment: MainAxisAlignment.start,
                   children: [
                     IconButton(
-                        icon: Icon(Icons.favorite_sharp),
-                        color: Colors.red,
-                        onPressed: () {}),
+                        icon: Icon(Icons.favorite_sharp), onPressed: () {}),
                     IconButton(
                         icon: Icon(Icons.comment_bank_outlined),
-                        color: Colors.white,
                         onPressed: () {}),
                   ],
                 ),
