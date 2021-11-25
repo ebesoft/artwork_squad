@@ -29,6 +29,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
+  # Provider
+  provider: ^6.0.1
+
   # GetX es una solución extra ligera y potente para Flutter. 
   # Combina la gestión de estado de alto rendimiento, 
   # la inyección inteligente de dependencias y la gestión de rutas de forma rápida y práctica.

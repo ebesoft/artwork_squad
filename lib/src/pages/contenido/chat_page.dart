@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:artwork_squad/src/entity/ChatClass.dart';
 import 'package:artwork_squad/src/pages/utils/bar.dart';
 import 'package:flutter/material.dart';
 
