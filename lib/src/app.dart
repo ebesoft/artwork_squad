@@ -2,7 +2,9 @@ import 'package:artwork_squad/blocs/theme.dart';
 import 'package:artwork_squad/src/constants.dart';
 import 'package:artwork_squad/src/pages/authentication/login_page.dart';
 import 'package:artwork_squad/src/pages/authentication/register_page.dart';
+
 import 'package:artwork_squad/src/pages/chat/chatList_page.dart';
+
 import 'package:artwork_squad/src/pages/contenido/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,10 +48,12 @@ class MaterialAppTheme extends StatelessWidget {
             name: HOME_ROUTE,
             page: () => HomeScreen(),
             transition: Transition.zoom),
+
         GetPage(
             name: CHAT_ROUTE,
             page: () => ChatListScreen(),
             transition: Transition.zoom),
+
       ],
     );
   }
