@@ -1,4 +1,6 @@
+import 'package:artwork_squad/src/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyAppBar {
   //MyAppBar(BuildContext context);
@@ -25,8 +27,11 @@ class MyAppBar {
             child: IconButton(icon: Icon(Icons.search), onPressed: () {})),
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
-            child:
-                IconButton(icon: Icon(Icons.chat_outlined), onPressed: () {})),
+            child: IconButton(
+                icon: Icon(Icons.chat_outlined),
+                onPressed: () {
+                  Get.toNamed(CHAT_ROUTE);
+                })),
         //Icon(Icons.more_vert), Puntos vrticales
       ],
       backgroundColor: Colors.black87,
