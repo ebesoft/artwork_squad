@@ -60,7 +60,11 @@ class MyAppBar {
         ),
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
-            child: IconButton(icon: Icon(Icons.search), onPressed: () {})),
+            child: IconButton(
+                icon: Icon(Icons.location_on),
+                onPressed: () {
+                  Get.offNamed(LOCATION_ROUTE);
+                })),
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
             child: IconButton(
