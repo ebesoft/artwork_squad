@@ -54,7 +54,8 @@ class MaterialAppTheme extends StatelessWidget {
         GetPage(
             name: NOTIFICATION_ROUTE,
             page: () => NotificationListScreen(),
-
+            transition: Transition.zoom),
+        GetPage(
             name: LOCATION_ROUTE,
             page: () => LocationScreen(),
             transition: Transition.zoom),
