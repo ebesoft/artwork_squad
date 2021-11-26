@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
+import 'pages/contenido/location/location_screen.dart';
+
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
@@ -50,6 +52,10 @@ class MaterialAppTheme extends StatelessWidget {
         GetPage(
             name: CHAT_ROUTE,
             page: () => ChatListScreen(),
+            transition: Transition.zoom),
+        GetPage(
+            name: LOCATION_ROUTE,
+            page: () => LocationScreen(),
             transition: Transition.zoom),
       ],
     );
