@@ -1,3 +1,4 @@
+import 'package:artwork_squad/src/pages/comment/commentDetail.dart';
 import 'package:artwork_squad/src/pages/utils/bar.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {}),
                     IconButton(
                         icon: Icon(Icons.comment_bank_outlined),
-                        onPressed: () {}),
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return CommentDetailPage();
+                          }));
+                        }),
                   ],
                 ),
                 Image.asset('../assets/arte/art1.jpg'),

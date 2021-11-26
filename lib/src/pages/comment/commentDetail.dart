@@ -1,22 +1,17 @@
-import 'package:artwork_squad/models/chatMessageModel.dart';
+import 'package:artwork_squad/models/commentModel.dart';
 import 'package:flutter/material.dart';
 
 // Trae el detalle del chat.
-class ChatDetailPage extends StatefulWidget {
+class CommentDetailPage extends StatefulWidget {
   @override
-  _ChatDetailPageState createState() => _ChatDetailPageState();
+  _CommentDetailPageState createState() => _CommentDetailPageState();
 }
 
-class _ChatDetailPageState extends State<ChatDetailPage> {
-  List<ChatMessage> messages = [
-    ChatMessage(messageContent: "Hello, Will", messageType: "receiver"),
-    ChatMessage(messageContent: "How have you been?", messageType: "receiver"),
-    ChatMessage(
-        messageContent: "Hey Kriss, I am doing fine dude. wbu?",
-        messageType: "sender"),
-    ChatMessage(messageContent: "ehhhh, doing OK.", messageType: "receiver"),
-    ChatMessage(
-        messageContent: "Is there any thing wrong?", messageType: "sender"),
+class _CommentDetailPageState extends State<CommentDetailPage> {
+  List<CommentUsers> messages = [
+    CommentUsers(name: "Will", comment: "Hola, excelente", time: "10:30"),
+    CommentUsers(name: "Joe Doe", comment: "Buen Post", time: "11:30"),
+    CommentUsers(name: "Emerson", comment: "receiver", time: "10:30"),
   ];
 
   @override
@@ -41,32 +36,11 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 SizedBox(
                   width: 2,
                 ),
-                CircleAvatar(
-                  backgroundImage: AssetImage("../assets/avatar/avatar1.png"),
-                  maxRadius: 20,
-                ),
-                SizedBox(
-                  width: 12,
-                ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "Kriss Benwat",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        "Online",
-                        style: TextStyle(
-                            color: Colors.grey.shade600, fontSize: 13),
-                      ),
-                    ],
+                    children: <Widget>[],
                   ),
                 ),
                 Icon(
@@ -89,19 +63,15 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 padding:
                     EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
                 child: Align(
-                  alignment: (messages[index].messageType == "receiver"
-                      ? Alignment.topLeft
-                      : Alignment.topRight),
+                  alignment: Alignment.topLeft,
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: (messages[index].messageType == "receiver"
-                          ? Colors.grey.shade200
-                          : Colors.blue[200]),
+                      color: Colors.blue[200],
                     ),
                     padding: EdgeInsets.all(16),
                     child: Text(
-                      messages[index].messageContent,
+                      messages[index].comment,
                       style: TextStyle(fontSize: 15, color: Colors.black54),
                     ),
                   ),
@@ -109,6 +79,8 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
               );
             },
           ),
+
+          // Caja de comentario.
           Align(
             alignment: Alignment.bottomLeft,
             child: Container(
@@ -117,22 +89,6 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
               width: double.infinity,
               child: Row(
                 children: <Widget>[
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        color: Colors.lightBlue,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                  ),
                   SizedBox(
                     width: 15,
                   ),
@@ -140,7 +96,6 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                     child: TextField(
                       decoration: InputDecoration(
                         hintText: "Escribir...",
-                        //border: InputBorder.none,
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                             borderSide:

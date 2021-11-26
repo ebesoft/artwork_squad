@@ -6,6 +6,7 @@ import 'package:artwork_squad/src/pages/authentication/register_page.dart';
 import 'package:artwork_squad/src/pages/chat/chatList_page.dart';
 
 import 'package:artwork_squad/src/pages/contenido/home_page.dart';
+import 'package:artwork_squad/src/pages/notifications/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -38,9 +39,6 @@ class MaterialAppTheme extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: theme.getTheme(),
       title: 'ARTwork Squad',
-      //theme: ThemeData(
-      //  primarySwatch: Colors.blueGrey,
-      //),
       initialRoute: LOGIN_ROUTE,
       getPages: [
         GetPage(name: LOGIN_ROUTE, page: () => LoginScreen()),
@@ -54,6 +52,9 @@ class MaterialAppTheme extends StatelessWidget {
             page: () => ChatListScreen(),
             transition: Transition.zoom),
         GetPage(
+            name: NOTIFICATION_ROUTE,
+            page: () => NotificationListScreen(),
+
             name: LOCATION_ROUTE,
             page: () => LocationScreen(),
             transition: Transition.zoom),

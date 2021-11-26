@@ -51,9 +51,13 @@ class MyAppBar {
             padding: EdgeInsets.symmetric(horizontal: 5),
             child: IconButton(icon: Icon(Icons.favorite), onPressed: () {})),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            child: IconButton(
-                icon: Icon(Icons.notifications_active), onPressed: () {})),
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          child: IconButton(
+              icon: Icon(Icons.notifications_active),
+              onPressed: () {
+                Get.toNamed(NOTIFICATION_ROUTE);
+              }),
+        ),
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
             child: IconButton(
