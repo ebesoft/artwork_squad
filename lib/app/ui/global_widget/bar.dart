@@ -1,5 +1,6 @@
 import 'package:artwork_squad/app/data/blocs/theme.dart';
 import 'package:artwork_squad/app/routes/app_pages.dart';
+import 'package:artwork_squad/app/ui/pages/post/post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -38,15 +39,17 @@ class MyAppBar {
       ),
       title: TextButton(
         onPressed: () => Get.toNamed(Routes.HOME),
-        child: Text('Artwork Squad'),
-        //style: TextStyle(color: Colors.blueAccent),
+        child: Text('Artwork Squad',
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
       ),
       actions: <Widget>[
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
             child: IconButton(
                 icon: Icon(Icons.add_circle_outline_outlined),
-                onPressed: () {})),
+                onPressed: () {
+                  Get.toNamed(Routes.POST);
+                })),
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
             child: IconButton(icon: Icon(Icons.favorite), onPressed: () {})),
