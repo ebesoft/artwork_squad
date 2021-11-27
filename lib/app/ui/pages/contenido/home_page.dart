@@ -10,7 +10,6 @@ class HomePage extends GetView<HomeController> {
     return Scaffold(
       appBar: new MyAppBar().getAppBar(context),
       body: ListView(
-        //children: Container(
         children: [
           Card(
             child: Column(

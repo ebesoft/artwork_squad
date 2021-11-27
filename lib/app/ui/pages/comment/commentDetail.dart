@@ -9,7 +9,11 @@ class CommentDetailPage extends StatefulWidget {
 
 class _CommentDetailPageState extends State<CommentDetailPage> {
   List<CommentUsers> messages = [
-    CommentUsers(name: "Will", comment: "Hola, excelente", time: "10:30"),
+    CommentUsers(
+        name: "Will",
+        comment:
+            "Hola, excelente este es un comentario de prueba; se espera llene todos los campos.",
+        time: "10:30"),
     CommentUsers(name: "Joe Doe", comment: "Buen Post", time: "11:30"),
     CommentUsers(name: "Emerson", comment: "receiver", time: "10:30"),
   ];
@@ -35,6 +39,13 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
                 ),
                 SizedBox(
                   width: 2,
+                ),
+                Text(
+                  'Comentarios',
+                  style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  width: 12,
                 ),
                 Expanded(
                   child: Column(
@@ -66,13 +77,28 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
                   alignment: Alignment.topLeft,
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.blue[200],
+                      borderRadius: BorderRadius.circular(7),
+                      color: Colors.grey[100],
                     ),
-                    padding: EdgeInsets.all(16),
-                    child: Text(
-                      messages[index].comment,
-                      style: TextStyle(fontSize: 15, color: Colors.black54),
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          messages[index].name,
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          messages[index].comment,
+                          style: TextStyle(fontSize: 12, color: Colors.black54),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -89,13 +115,33 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
               width: double.infinity,
               child: Row(
                 children: <Widget>[
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.lightBlue,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
                   SizedBox(
                     width: 15,
                   ),
                   Expanded(
                     child: TextField(
+                      style: TextStyle(fontSize: 12.0),
+                      maxLines: null,
                       decoration: InputDecoration(
-                        hintText: "Escribir...",
+                        hintText: "Comentar...",
+                        contentPadding:
+                            const EdgeInsets.symmetric(vertical: 10.0),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                             borderSide:

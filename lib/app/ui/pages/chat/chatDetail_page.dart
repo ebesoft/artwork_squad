@@ -135,9 +135,12 @@ class ChatDetailPage extends GetView<ChatDetailController> {
                   ),
                   Expanded(
                     child: TextField(
+                      style: TextStyle(fontSize: 12.0),
+                      maxLines: null,
                       decoration: InputDecoration(
                         hintText: "Escribir...",
-                        //border: InputBorder.none,
+                        contentPadding:
+                            const EdgeInsets.symmetric(vertical: 10.0),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                             borderSide:
