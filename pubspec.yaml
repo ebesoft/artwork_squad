@@ -32,6 +32,16 @@ dependencies:
   # Provider
   provider: ^6.0.1
 
+  cloud_firestore: ^3.1.0
+
+  # Un complemento de Flutter para usar la API de autenticación de Firebase.
+  firebase_auth: ^3.2.0
+
+  # Un complemento de Flutter para usar la API de Firebase Core, que permite conectarse a varias aplicaciones de Firebase.
+  firebase_core: ^1.10.0
+
+  firebase_database: ^8.1.0
+
   # GetX es una solución extra ligera y potente para Flutter. 
   # Combina la gestión de estado de alto rendimiento, 
   # la inyección inteligente de dependencias y la gestión de rutas de forma rápida y práctica.

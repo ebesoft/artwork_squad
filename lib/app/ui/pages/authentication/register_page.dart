@@ -5,9 +5,24 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class RegisterPage extends GetView<RegisterController> {
-  final _textController = TextEditingController();
-  final _passController = TextEditingController();
-  final _confirmController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final textController = TextEditingController();
+  final passController = TextEditingController();
+  final confirmController = TextEditingController();
+  RegisterController registerController = Get.find();
+
+  _register(theEmail, thePassword, confirmPass) async {
+    try {
+      await registerController.register(theEmail, thePassword, confirmPass);
+    } catch (err) {
+      Get.snackbar(
+        "Error",
+        err.toString(),
+        icon: Icon(Icons.person, color: Colors.red),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,80 +33,159 @@ class RegisterPage extends GetView<RegisterController> {
         centerTitle: true,
         backgroundColor: Colors.black87,
       ),
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 8.0),
+      body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        return SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Form(
+            key: _formKey,
             child: Column(
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                SizedBox(height: 5),
                 Flexible(
-                  child: Image.asset(
-                    '../assets/logo/arte.png',
+                  child: Image.network(
+                    'https://drive.google.com/uc?export=view&id=1PHWzM2FrD7BZwEe8296CGP07tP1Ie3u8',
                     height: 250,
                   ),
                 ),
                 Text(
                   "Registrarse",
-                  style: Theme.of(context).textTheme.headline6,
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  controller: _passController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Ingresar su correo',
-                  ),
-                ),
+                SizedBox(height: 10),
                 Divider(),
-                TextField(
-                  controller: _textController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Ingresar contraseña',
-                  ),
-                ),
+                _ingresarEmail(),
                 Divider(),
-                TextField(
-                  controller: _confirmController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'confirmar contraseña',
-                  ),
-                ),
+                _ingresarPass(),
                 SizedBox(
-                  height: 20,
+                  height: 8,
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      if (_textController.text.isEmpty) {
-                        Get.snackbar('Error', 'Value can not be empty',
-                            icon: Icon(Icons.alarm),
-                            backgroundColor: Colors.red);
-                      } else {
-                        final name = _textController.text;
-                        Get.toNamed(Routes.HOME, arguments: name);
-                      }
-                    },
-                    child: Text("Enviar")),
+                _confirmPass(),
+                Divider(),
+                _registerButton(),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 TextButton(
-                    onPressed: () {
-                      Get.toNamed(Routes.LOGIN);
-                    },
-                    child: Text("Iniciar sesión"))
+                  onPressed: () {
+                    Get.toNamed(Routes.LOGIN);
+                  },
+                  child: Text("Iniciar sesión"),
+                ),
               ],
             ),
           ),
+        );
+      }),
+    );
+  }
+
+  Widget _registerButton() {
+    return StreamBuilder(
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+      return ElevatedButton(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
+          child: Text('Enviar'),
         ),
+        onPressed: () async {
+          FocusScope.of(context).requestFocus(FocusNode());
+          final form = _formKey.currentState;
+          form!.save();
+          if (_formKey.currentState!.validate()) {
+            await _register(textController.text, passController.text,
+                confirmController.text);
+          }
+        },
+      );
+    });
+  }
+
+  Widget _ingresarEmail() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 25.0),
+      child: Column(
+        children: <Widget>[
+          TextFormField(
+              //autofocus: true,
+              controller: this.textController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    gapPadding: 40, borderRadius: BorderRadius.circular(12.0)),
+                labelText: 'Ingresar su correo',
+                helperText: 'Distingue de mayúsculas y minúsculas',
+                suffixIcon: Icon(Icons.accessibility_new),
+                icon: Icon(Icons.account_circle_outlined),
+              ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "EL email es requerido";
+                } else if (!value.contains('@')) {
+                  return "Ingresar email valido";
+                }
+              }),
+        ],
+      ),
+    );
+  }
+
+  Widget _ingresarPass() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 25.0),
+      child: Column(
+        children: <Widget>[
+          TextFormField(
+            controller: this.passController,
+            obscureText: true,
+            decoration: InputDecoration(
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
+              labelText: 'Ingresar Contraseña',
+              suffixIcon: Icon(Icons.lock_open),
+              icon: Icon(Icons.lock),
+            ),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "La contraseña es requerida";
+              } else if (value.length < 6) {
+                return "La contraseña debe tener al menos 6 caracteres";
+              }
+              return null;
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _confirmPass() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 25.0),
+      child: Column(
+        children: <Widget>[
+          TextFormField(
+            controller: this.confirmController,
+            obscureText: true,
+            decoration: InputDecoration(
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
+              labelText: 'Confirmar Contraseña',
+              suffixIcon: Icon(Icons.lock_open),
+              icon: Icon(Icons.lock),
+            ),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "La contraseña es requerida";
+              } else if (value.length < 6) {
+                return "La contraseña debe tener al menos 6 caracteres";
+              }
+              return null;
+            },
+          )
+        ],
       ),
     );
   }

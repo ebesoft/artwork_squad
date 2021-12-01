@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1077850851962",
+    "project_id": "artwork-squad",
+    "storage_bucket": "artwork-squad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1077850851962:android:67c73878cd0ba704d449c3",
+        "android_client_info": {
+          "package_name": "com.example.artwork_squad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1077850851962-3f5u1p8rbgh30f0lg1rtbe1evrh51l5u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3nPNen1gExaqiTGDxpJl95i0b8lUEipE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1077850851962-3f5u1p8rbgh30f0lg1rtbe1evrh51l5u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
