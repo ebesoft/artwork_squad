@@ -11,9 +11,10 @@ class RegisterPage extends GetView<RegisterController> {
   final confirmController = TextEditingController();
   RegisterController registerController = Get.find();
 
-  _register(theEmail, thePassword, confirmPass) async {
+  _register(theEmail, thePassword) async {
     try {
-      await registerController.register(theEmail, thePassword, confirmPass);
+      await registerController.register(theEmail, thePassword);
+      Get.toNamed(Routes.HOME);
     } catch (err) {
       Get.snackbar(
         "Error",
@@ -95,8 +96,7 @@ class RegisterPage extends GetView<RegisterController> {
           final form = _formKey.currentState;
           form!.save();
           if (_formKey.currentState!.validate()) {
-            await _register(textController.text, passController.text,
-                confirmController.text);
+            await _register(textController.text, passController.text);
           }
         },
       );
@@ -114,7 +114,7 @@ class RegisterPage extends GetView<RegisterController> {
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                    gapPadding: 40, borderRadius: BorderRadius.circular(12.0)),
+                    borderRadius: BorderRadius.circular(12.0)),
                 labelText: 'Ingresar su correo',
                 helperText: 'Distingue de mayúsculas y minúsculas',
                 suffixIcon: Icon(Icons.accessibility_new),

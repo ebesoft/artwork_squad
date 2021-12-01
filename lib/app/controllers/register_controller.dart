@@ -1,29 +1,26 @@
 import 'package:artwork_squad/app/routes/app_pages.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class RegisterController extends GetxController {
-  Future<void> register(theEmail, thePassword, theConfirm) async {
-    await validacion(
-        email: theEmail, password: thePassword, confirm: theConfirm);
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  late Rx<dynamic> _usuarior = "Sin Registro".obs;
+  String get userf => _usuarior.value;
 
-    return Future.value(true);
-  }
+  Future<void> register(email, password) async {
+    try {
+      UserCredential usuario = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      _usuarior.value = usuario.user!.uid;
 
-  validacion({email, password, confirm}) {
-    String valmail = 'test@mail.com';
-    String valpass = 'test123';
-
-    if (email != valmail) {
-      if (password == confirm) {
-        Get.offNamed(Routes.HOME);
-        return true;
-      } else {
-        return Future.error("Contraseñas no coinciden");
+      return Future.value(true);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        return Future.error('La contraseña proporcionada es demasiado débil.');
+      } else if (e.code == 'email-already-in-use') {
+        return Future.error(
+            'La cuenta ya existe para este correo electrónico.');
       }
-    }
-
-    if (email == valmail) {
-      return Future.error("Email ya registrado");
     }
   }
 }

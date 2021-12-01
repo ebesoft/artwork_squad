@@ -13,6 +13,7 @@ class LoginPage extends GetView<LoginController> {
   _login(theEmail, thePassword) async {
     try {
       await loginController.login(theEmail, thePassword);
+      Get.toNamed(Routes.HOME);
     } catch (err) {
       Get.snackbar(
         "Login",
@@ -108,7 +109,7 @@ class LoginPage extends GetView<LoginController> {
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                    gapPadding: 40, borderRadius: BorderRadius.circular(12.0)),
+                    borderRadius: BorderRadius.circular(12.0)),
                 labelText: 'Ingresar su correo',
                 helperText: 'Distingue de mayúsculas y minúsculas',
                 suffixIcon: Icon(Icons.accessibility_new),
