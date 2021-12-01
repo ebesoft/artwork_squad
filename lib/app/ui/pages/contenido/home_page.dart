@@ -1,10 +1,13 @@
 import 'package:artwork_squad/app/controllers/home_controller.dart';
+import 'package:artwork_squad/app/controllers/login_controller.dart';
 import 'package:artwork_squad/app/ui/pages/comment/commentDetail.dart';
 import 'package:artwork_squad/app/ui/global_widget/bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomePage extends GetView<HomeController> {
+  LoginController loginController = Get.put(LoginController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +46,10 @@ class HomePage extends GetView<HomeController> {
                         }),
                   ],
                 ),
-                Image.asset('../assets/arte/art1.jpg'),
+                Image.network(
+                  'https://drive.google.com/uc?export=view&id=1x5TxgXbdk0DboeJBivGmcwZZy3TUbrnQ',
+                  fit: BoxFit.cover,
+                ),
               ],
             ),
           ),
@@ -105,7 +111,10 @@ class HomePage extends GetView<HomeController> {
                         onPressed: () {}),
                   ],
                 ),
-                Image.asset('../assets/arte/art4.png'),
+                Image.network(
+                  'https://drive.google.com/uc?export=view&id=19RkYYSSbnNqRXFarylEd5KMOp4hZrMnE',
+                  fit: BoxFit.cover,
+                ),
               ],
             ),
           ),

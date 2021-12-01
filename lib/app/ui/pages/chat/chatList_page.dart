@@ -1,6 +1,6 @@
 import 'package:artwork_squad/app/controllers/chat_controller.dart';
 import 'package:artwork_squad/app/data/models/chatUsersModel.dart';
-import 'package:artwork_squad/app/ui/pages/chat/chatList.dart';
+import 'package:artwork_squad/app/ui/pages/chat/widgets/chatList.dart';
 import 'package:artwork_squad/app/ui/global_widget/bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
