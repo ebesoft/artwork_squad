@@ -42,6 +42,7 @@ dependencies:
 
   firebase_database: ^8.1.0
 
+
   # GetX es una solución extra ligera y potente para Flutter. 
   # Combina la gestión de estado de alto rendimiento, 
   # la inyección inteligente de dependencias y la gestión de rutas de forma rápida y práctica.
