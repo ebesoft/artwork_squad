@@ -3,35 +3,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
-  Future<void> login(theEmail, thePassword) async {
-    await validacion(email: theEmail, password: thePassword);
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  late Rx<dynamic> _usuarior = "Sin Registro".obs;
+  String get userf => _usuarior.value;
 
-    return Future.value(true);
-  }
-
-  validacion({email, password}) {
-    String valmail = 'test@mail.com';
-    String valpass = 'test123';
-    if (email == valmail && password == valpass) {
-      Get.offNamed(Routes.HOME);
-      return true;
-    }
-
-    if (email != valmail) {
-      return Future.error("Usuario no encontrado");
-    }
-
-    if (password != valpass) {
-      return Future.error("Contraseña incorrecta");
-    }
-  }
-
-  /*
   Future<void> login(theEmail, thePassword) async {
     try {
-      await FirebaseAuth.instance
+      UserCredential usuario = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: theEmail, password: thePassword);
       print('OK');
+      _usuarior.value = usuario.user!.uid;
+
       return Future.value(true);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -43,20 +25,6 @@ class LoginController extends GetxController {
       }
     }
     print('NOK');
-  }
-
-  Future<void> signUp(email, password) async {
-    try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      return Future.value(true);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        return Future.error('La contraseña proporcionada es demasiado débil.');
-      } else if (e.code == 'email-already-in-use') {
-        return Future.error('La cuenta ya existe para este correo electrónico.');
-      }
-    }
   }
 
   Future<void> logOut() async {
@@ -71,5 +39,4 @@ class LoginController extends GetxController {
     String email = FirebaseAuth.instance.currentUser!.email ?? "a@a.com";
     return email;
   }
-  */
 }

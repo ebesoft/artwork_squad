@@ -2,123 +2,65 @@ import 'package:artwork_squad/app/controllers/home_controller.dart';
 import 'package:artwork_squad/app/controllers/login_controller.dart';
 import 'package:artwork_squad/app/ui/pages/comment/commentDetail.dart';
 import 'package:artwork_squad/app/ui/global_widget/bar.dart';
+import 'package:artwork_squad/app/ui/pages/contenido/widgets/post_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomePage extends GetView<HomeController> {
-  LoginController loginController = Get.put(LoginController());
+  List<PostWidget> postWidget = [
+    PostWidget(
+        name: "Rodrigo Lara",
+        message:
+            "Mi hermano!, ¿Un partido hoy?. Greyhound divisively hello coldly wonderfully marginally far upon excluding. Greyhound divisively hello coldly wonderfully marginally far upon excluding.",
+        estado: "15:30",
+        avatar:
+            "https://yt3.ggpht.com/a-/AOh14Ggu5Wml45UPksoMVJq2rqctYSp_bLbg3U1zYmoO5g=s288-c-k-c0xffffffff-no-rj-mo",
+        photo:
+            "https://drive.google.com/uc?export=view&id=1x5TxgXbdk0DboeJBivGmcwZZy3TUbrnQ"),
+    PostWidget(
+        name: "Codigo Fuente",
+        message: "Hey! Tengo un nuevo video",
+        estado: "17:30",
+        avatar:
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRWXUImijoB6F3msIRS96kTHW8YpthkyaONhzthSC4v7RYUzFya",
+        photo:
+            "https://drive.google.com/uc?export=view&id=19RkYYSSbnNqRXFarylEd5KMOp4hZrMnE"),
+    PostWidget(
+        name: "Bill Gates",
+        message: "Windows 12 esta disponible!",
+        estado: "5:00",
+        avatar:
+            "https://elrincondeldchome.files.wordpress.com/2019/06/joe-west.jpg?w=500",
+        photo:
+            "https://drive.google.com/uc?export=view&id=1uEu--y7BXNJ7hJyEQdrZ0E-TYD6cCdMO"),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new MyAppBar().getAppBar(context),
-      body: ListView(
-        children: [
-          Card(
-            child: Column(
-              children: [
-                ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage('../assets/avatar/avatar1.png'),
-                    backgroundColor: Colors.transparent,
-                  ),
-                  title: const Text('Card title 1'),
-                  subtitle: Text('Secondary Text'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                      'Greyhound divisively hello coldly wonderfully marginally far upon excluding.'),
-                ),
-                ButtonBar(
-                  alignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                        icon: Icon(Icons.favorite_outline_sharp),
-                        onPressed: () {}),
-                    IconButton(
-                        icon: Icon(Icons.comment_bank_outlined),
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return CommentDetailPage();
-                          }));
-                        }),
-                  ],
-                ),
-                Image.network(
-                  'https://drive.google.com/uc?export=view&id=1x5TxgXbdk0DboeJBivGmcwZZy3TUbrnQ',
-                  fit: BoxFit.cover,
-                ),
-              ],
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            ListView.builder(
+              itemCount: postWidget.length,
+              shrinkWrap: true,
+              padding: EdgeInsets.only(top: 16),
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return PostWidget(
+                  name: postWidget[index].name,
+                  message: postWidget[index].message,
+                  avatar: postWidget[index].avatar,
+                  estado: postWidget[index].estado,
+                  photo: postWidget[index].photo,
+                );
+              },
             ),
-          ),
-          Card(
-            clipBehavior: Clip.antiAlias,
-            child: Column(
-              children: [
-                ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage('../assets/avatar/avatar3.jpg'),
-                    backgroundColor: Colors.transparent,
-                  ),
-                  title: const Text('Card title 2'),
-                  subtitle: Text('Secondary Text'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                      'Greyhound divisively hello coldly wonderfully marginally far upon excluding.'),
-                ),
-                ButtonBar(
-                  alignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                        icon: Icon(Icons.favorite_sharp), onPressed: () {}),
-                    IconButton(
-                        icon: Icon(Icons.comment_bank_outlined),
-                        onPressed: () {}),
-                  ],
-                ),
-                Image.asset('../assets/arte/art2.webp'),
-              ],
-            ),
-          ),
-          Card(
-            clipBehavior: Clip.antiAlias,
-            child: Column(
-              children: [
-                ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage('../assets/avatar/avatar2.jpg'),
-                    backgroundColor: Colors.transparent,
-                  ),
-                  title: const Text('Card title 3'),
-                  subtitle: Text('Secondary Text'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                      'Greyhound divisively hello coldly wonderfully marginally far upon excluding.'),
-                ),
-                ButtonBar(
-                  alignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                        icon: Icon(Icons.favorite_sharp), onPressed: () {}),
-                    IconButton(
-                        icon: Icon(Icons.comment_bank_outlined),
-                        onPressed: () {}),
-                  ],
-                ),
-                Image.network(
-                  'https://drive.google.com/uc?export=view&id=19RkYYSSbnNqRXFarylEd5KMOp4hZrMnE',
-                  fit: BoxFit.cover,
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
