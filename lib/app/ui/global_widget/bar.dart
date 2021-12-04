@@ -1,6 +1,7 @@
 import 'package:artwork_squad/app/controllers/login_controller.dart';
 import 'package:artwork_squad/app/data/blocs/theme.dart';
 import 'package:artwork_squad/app/routes/app_pages.dart';
+import 'package:artwork_squad/app/ui/pages/authentication/login_page.dart';
 import 'package:artwork_squad/app/ui/pages/post/post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -80,7 +81,7 @@ class MyAppBar {
                 icon: Icon(Icons.logout),
                 onPressed: () {
                   loginController.logOut();
-                  Get.toNamed(Routes.LOGIN);
+                  Get.offAll(LoginPage());
                 })),
       ],
     );
