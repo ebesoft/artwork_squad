@@ -1,5 +1,6 @@
 import 'package:artwork_squad/app/controllers/register_controller.dart';
 import 'package:artwork_squad/app/routes/app_pages.dart';
+import 'package:artwork_squad/app/ui/pages/contenido/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -14,7 +15,7 @@ class RegisterPage extends GetView<RegisterController> {
   _register(theEmail, thePassword) async {
     try {
       await registerController.register(theEmail, thePassword);
-      Get.toNamed(Routes.HOME);
+      Get.offAll(() => HomePage());
     } catch (err) {
       Get.snackbar(
         "Error",

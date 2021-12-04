@@ -42,15 +42,23 @@ dependencies:
 
   firebase_database: ^8.1.0
 
+  google_sign_in: ^5.0.7
+  font_awesome_flutter: ^9.2.0
+
 
   # GetX es una solución extra ligera y potente para Flutter. 
   # Combina la gestión de estado de alto rendimiento, 
   # la inyección inteligente de dependencias y la gestión de rutas de forma rápida y práctica.
   get: ^4.3.8
 
+  # Pintar errores en cualquier parte.
+  logger: ^1.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  test:
+  mockito: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

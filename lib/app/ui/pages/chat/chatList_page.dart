@@ -1,4 +1,6 @@
 import 'package:artwork_squad/app/controllers/chat_controller.dart';
+import 'package:artwork_squad/app/controllers/controllerRealtime.dart';
+import 'package:artwork_squad/app/controllers/login_controller.dart';
 import 'package:artwork_squad/app/data/models/chatUsersModel.dart';
 import 'package:artwork_squad/app/ui/pages/chat/widgets/chatList.dart';
 import 'package:artwork_squad/app/ui/global_widget/bar.dart';
@@ -53,6 +55,9 @@ class ChatPage extends GetView<ChatController> {
 
   @override
   Widget build(BuildContext context) {
+    LoginController loginController = Get.find();
+    RealtimeController controlReal = Get.find();
+
     return Scaffold(
       appBar: new MyAppBar().getAppBar(context),
       body: SingleChildScrollView(

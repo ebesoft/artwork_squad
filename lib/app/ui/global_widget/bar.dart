@@ -1,12 +1,13 @@
+import 'package:artwork_squad/app/controllers/login_controller.dart';
 import 'package:artwork_squad/app/data/blocs/theme.dart';
 import 'package:artwork_squad/app/routes/app_pages.dart';
-import 'package:artwork_squad/app/ui/pages/post/post_page.dart';
+import 'package:artwork_squad/app/ui/pages/authentication/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class MyAppBar {
-  //MyAppBar(BuildContext context);
+  LoginController loginController = Get.find();
 
   getAppBar(BuildContext context) {
     final theme = Provider.of<ThemeChanger>(context);
@@ -69,12 +70,22 @@ class MyAppBar {
                   Get.offNamed(Routes.LOCATION);
                 })),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            child: IconButton(
-                icon: Icon(Icons.chat_outlined),
-                onPressed: () {
-                  Get.toNamed(Routes.CHAT);
-                })),
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          child: IconButton(
+              icon: Icon(Icons.chat_outlined),
+              onPressed: () {
+                Get.toNamed(Routes.CHAT);
+              }),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          child: IconButton(
+              icon: Icon(Icons.logout_outlined),
+              onPressed: () {
+                loginController.logOut();
+                Get.offAll(LoginPage());
+              }),
+        ),
       ],
     );
   }

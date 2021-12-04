@@ -1,20 +1,21 @@
 import 'package:artwork_squad/app/controllers/chatDetail_controller.dart';
+import 'package:artwork_squad/app/controllers/controllerRealtime.dart';
+import 'package:artwork_squad/app/controllers/login_controller.dart';
 import 'package:artwork_squad/app/data/models/chatMessageModel.dart';
+import 'package:artwork_squad/app/ui/pages/chat/widgets/chatDetail_widget.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 
 // Trae el detalle del chat.
 class ChatDetailPage extends GetView<ChatDetailController> {
-  List<ChatMessage> messages = [
-    ChatMessage(messageContent: "Hello, Will", messageType: "receiver"),
-    ChatMessage(messageContent: "How have you been?", messageType: "receiver"),
-    ChatMessage(
-        messageContent: "Hey Kriss, I am doing fine dude. wbu?",
-        messageType: "sender"),
-    ChatMessage(messageContent: "ehhhh, doing OK.", messageType: "receiver"),
-    ChatMessage(
-        messageContent: "Is there any thing wrong?", messageType: "sender"),
-  ];
+  TextEditingController _mensajeController = TextEditingController();
+  Logger _logger = new Logger();
+
+  LoginController loginController = Get.find();
+  RealtimeController controlReal = Get.find();
+  ChatDetailController detailChat = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,8 @@ class ChatDetailPage extends GetView<ChatDetailController> {
                   width: 2,
                 ),
                 CircleAvatar(
-                  backgroundImage: AssetImage("../assets/avatar/avatar1.png"),
+                  backgroundImage: NetworkImage(
+                      "https://elrincondeldchome.files.wordpress.com/2019/06/joe-west.jpg?w=500"),
                   maxRadius: 20,
                 ),
                 SizedBox(
@@ -76,36 +78,10 @@ class ChatDetailPage extends GetView<ChatDetailController> {
       ),
       body: Stack(
         children: <Widget>[
-          ListView.builder(
-            itemCount: messages.length,
-            shrinkWrap: true,
-            padding: EdgeInsets.only(top: 10, bottom: 10),
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Container(
-                padding:
-                    EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
-                child: Align(
-                  alignment: (messages[index].messageType == "receiver"
-                      ? Alignment.topLeft
-                      : Alignment.topRight),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: (messages[index].messageType == "receiver"
-                          ? Colors.grey.shade200
-                          : Colors.blue[200]),
-                    ),
-                    padding: EdgeInsets.all(16),
-                    child: Text(
-                      messages[index].messageContent,
-                      style: TextStyle(fontSize: 15, color: Colors.black54),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
+          _getListaMensajes(),
+          //Container(
+          //  padding: EdgeInsets.only(right: 16),
+          //child:
           Align(
             alignment: Alignment.bottomLeft,
             child: Container(
@@ -133,26 +109,19 @@ class ChatDetailPage extends GetView<ChatDetailController> {
                   SizedBox(
                     width: 15,
                   ),
-                  Expanded(
-                    child: TextField(
-                      style: TextStyle(fontSize: 12.0),
-                      maxLines: null,
-                      decoration: InputDecoration(
-                        hintText: "Escribir...",
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 10.0),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide:
-                                BorderSide(color: Colors.grey.shade100)),
-                      ),
-                    ),
+                  Flexible(
+                    child: _textMensaje(),
                   ),
+                  //_textMensaje(),
                   SizedBox(
                     width: 15,
                   ),
                   FloatingActionButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _enviarMensaje();
+                      //controlReal.createData(
+                      //    _mensajeController.text, loginController.uidrf);
+                    },
                     child: Icon(
                       Icons.send,
                       color: Colors.white,
@@ -164,8 +133,51 @@ class ChatDetailPage extends GetView<ChatDetailController> {
                 ],
               ),
             ),
+            // ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _enviarMensaje() {
+    final mensaje =
+        ChatMessage(_mensajeController.text, DateTime.now(), 'receiver');
+    detailChat.guardarMensaje(mensaje);
+    Obx() => _mensajeController.clear();
+  }
+
+  Widget _getListaMensajes() {
+    return Expanded(
+      child: FirebaseAnimatedList(
+        query: detailChat.getMensajes(),
+        itemBuilder: (context, snapshot, animation, index) {
+          final json = snapshot.value as Map<dynamic, dynamic>;
+          //print('Id_unico:${snapshot.key}');
+          final mensaje = ChatMessage.fromJson(json);
+          _logger.i('Estado $json');
+          return MensajeWidget(mensaje.texto, mensaje.fecha, mensaje.tipo);
+        },
+      ),
+    );
+  }
+
+  Widget _textMensaje() {
+    return Expanded(
+      child: TextField(
+        keyboardType: TextInputType.text,
+        controller: _mensajeController,
+        style: TextStyle(fontSize: 12.0),
+        maxLines: null,
+        decoration: InputDecoration(
+          hintText: "Escribir...",
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.grey.shade100),
+          ),
+        ),
       ),
     );
   }

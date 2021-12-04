@@ -140,12 +140,12 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
                       maxLines: null,
                       decoration: InputDecoration(
                         hintText: "Comentar...",
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 10.0),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 8.0),
                         enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide:
-                                BorderSide(color: Colors.grey.shade100)),
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey.shade100),
+                        ),
                       ),
                     ),
                   ),
