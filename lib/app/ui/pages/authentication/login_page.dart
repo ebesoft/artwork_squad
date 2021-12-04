@@ -1,9 +1,12 @@
 import 'package:artwork_squad/app/controllers/login_controller.dart';
 import 'package:artwork_squad/app/routes/app_pages.dart';
+import 'package:artwork_squad/app/ui/pages/contenido/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
+// ignore: must_be_immutable
 class LoginPage extends GetView<LoginController> {
   final _formKey = GlobalKey<FormState>();
   final textController = TextEditingController();
@@ -13,7 +16,7 @@ class LoginPage extends GetView<LoginController> {
   _login(theEmail, thePassword) async {
     try {
       await loginController.login(theEmail, thePassword);
-      Get.toNamed(Routes.HOME);
+      Get.offAll(() => HomePage());
     } catch (err) {
       Get.snackbar(
         "Login",
@@ -75,6 +78,12 @@ class LoginPage extends GetView<LoginController> {
           ),
         );
       }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _google();
+        },
+        child: FaIcon(FontAwesomeIcons.google, color: Colors.white),
+      ),
     );
   }
 
@@ -154,5 +163,20 @@ class LoginPage extends GetView<LoginController> {
         ],
       ),
     );
+  }
+
+  _google() async {
+    try {
+      await loginController.ingresarGoogle();
+      Get.toNamed(Routes.HOME);
+    } catch (err) {
+      print(err.toString());
+      Get.snackbar(
+        "Login",
+        err.toString(),
+        icon: Icon(Icons.person, color: Colors.red),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 }

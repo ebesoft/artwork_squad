@@ -16,6 +16,16 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
         time: "10:30"),
     CommentUsers(name: "Joe Doe", comment: "Buen Post", time: "11:30"),
     CommentUsers(name: "Emerson", comment: "receiver", time: "10:30"),
+    CommentUsers(
+        name: "Emer",
+        comment:
+            "Hola, excelente este es un comentario de prueba; se espera llene todos los campos.",
+        time: "10:30"),
+    CommentUsers(
+        name: "Otros",
+        comment:
+            "Hola, excelente este es un comentario de prueba; se espera llene todos los campos.",
+        time: "10:30"),
   ];
 
   @override
@@ -110,6 +120,13 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
           Align(
             alignment: Alignment.bottomLeft,
             child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5.0),
+                ),
+              ),
               padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
               height: 60,
               width: double.infinity,
@@ -140,12 +157,12 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
                       maxLines: null,
                       decoration: InputDecoration(
                         hintText: "Comentar...",
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 10.0),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 8.0),
                         enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide:
-                                BorderSide(color: Colors.grey.shade100)),
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey.shade100),
+                        ),
                       ),
                     ),
                   ),

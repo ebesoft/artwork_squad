@@ -1,20 +1,22 @@
 import 'package:artwork_squad/app/controllers/chatDetail_controller.dart';
+import 'package:artwork_squad/app/controllers/controllerRealtime.dart';
+import 'package:artwork_squad/app/controllers/login_controller.dart';
 import 'package:artwork_squad/app/data/models/chatMessageModel.dart';
+import 'package:artwork_squad/app/ui/pages/chat/widgets/chatDetail_widget.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
+import 'package:intl/intl.dart';
 
 // Trae el detalle del chat.
 class ChatDetailPage extends GetView<ChatDetailController> {
-  List<ChatMessage> messages = [
-    ChatMessage(messageContent: "Hello, Will", messageType: "receiver"),
-    ChatMessage(messageContent: "How have you been?", messageType: "receiver"),
-    ChatMessage(
-        messageContent: "Hey Kriss, I am doing fine dude. wbu?",
-        messageType: "sender"),
-    ChatMessage(messageContent: "ehhhh, doing OK.", messageType: "receiver"),
-    ChatMessage(
-        messageContent: "Is there any thing wrong?", messageType: "sender"),
-  ];
+  LoginController loginController = Get.find();
+  RealtimeController controlReal = Get.find();
+  ChatDetailController detailChat = Get.find();
+
+  //_mensajeController = detailChat.mensajeController;
+  Logger _logger = new Logger();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,8 @@ class ChatDetailPage extends GetView<ChatDetailController> {
                   width: 2,
                 ),
                 CircleAvatar(
-                  backgroundImage: AssetImage("../assets/avatar/avatar1.png"),
+                  backgroundImage: NetworkImage(
+                      "https://elrincondeldchome.files.wordpress.com/2019/06/joe-west.jpg?w=500"),
                   maxRadius: 20,
                 ),
                 SizedBox(
@@ -76,39 +79,17 @@ class ChatDetailPage extends GetView<ChatDetailController> {
       ),
       body: Stack(
         children: <Widget>[
-          ListView.builder(
-            itemCount: messages.length,
-            shrinkWrap: true,
-            padding: EdgeInsets.only(top: 10, bottom: 10),
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Container(
-                padding:
-                    EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
-                child: Align(
-                  alignment: (messages[index].messageType == "receiver"
-                      ? Alignment.topLeft
-                      : Alignment.topRight),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: (messages[index].messageType == "receiver"
-                          ? Colors.grey.shade200
-                          : Colors.blue[200]),
-                    ),
-                    padding: EdgeInsets.all(16),
-                    child: Text(
-                      messages[index].messageContent,
-                      style: TextStyle(fontSize: 15, color: Colors.black54),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
+          _getListaMensajes(),
           Align(
             alignment: Alignment.bottomLeft,
             child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5.0),
+                ),
+              ),
               padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
               height: 60,
               width: double.infinity,
@@ -133,33 +114,30 @@ class ChatDetailPage extends GetView<ChatDetailController> {
                   SizedBox(
                     width: 15,
                   ),
-                  Expanded(
-                    child: TextField(
-                      style: TextStyle(fontSize: 12.0),
-                      maxLines: null,
-                      decoration: InputDecoration(
-                        hintText: "Escribir...",
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 10.0),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide:
-                                BorderSide(color: Colors.grey.shade100)),
-                      ),
-                    ),
-                  ),
+                  _textMensaje(),
                   SizedBox(
                     width: 15,
                   ),
-                  FloatingActionButton(
-                    onPressed: () {},
-                    child: Icon(
-                      Icons.send,
-                      color: Colors.white,
-                      size: 18,
+                  IconButton(
+                    //FloatingActionButton(
+
+                    //onPressed: () {
+                    // _enviarMensaje();
+                    //controlReal.createData(
+                    //    _mensajeController.text, loginController.uidrf);
+                    //},
+                    icon: Icon(
+                      _puedoEnviarMensaje()
+                          ? Icons.send
+                          : Icons.send_and_archive_rounded,
+                      color: Colors.blue,
+                      size: 25,
                     ),
-                    backgroundColor: Colors.blue,
-                    elevation: 0,
+                    onPressed: () {
+                      _enviarMensaje();
+                    },
+                    //backgroundColor: Colors.blue,
+                    // elevation: 0,
                   ),
                 ],
               ),
@@ -169,4 +147,63 @@ class ChatDetailPage extends GetView<ChatDetailController> {
       ),
     );
   }
+
+  bool _puedoEnviarMensaje() => detailChat.mensajeController.text.length > 0;
+
+  void _enviarMensaje() {
+    if (_puedoEnviarMensaje()) {
+      final mensaje = ChatMessage(
+          detailChat.mensajeController.text, DateTime.now(), 'transmitter');
+      detailChat.guardarMensaje(mensaje);
+      detailChat.clearText();
+    }
+  }
+
+  Widget _getListaMensajes() {
+    return Expanded(
+      child: FirebaseAnimatedList(
+        query: detailChat.getMensajes(),
+        itemBuilder: (context, snapshot, animation, index) {
+          final json = snapshot.value as Map<dynamic, dynamic>;
+          //print('Id_unico:${snapshot.key}');
+          final mensaje = ChatMessage.fromJson(json);
+          _logger.i('Estado $json');
+          return MensajeWidget(mensaje.texto, mensaje.fecha, mensaje.tipo);
+        },
+      ),
+    );
+  }
+
+  Widget _textMensaje() {
+    return Expanded(
+      child: TextField(
+        keyboardType: TextInputType.text,
+        controller: detailChat.mensajeController,
+        //onChanged: (detailChat.mensajeController.text),
+        style: TextStyle(
+          fontSize: 12.0,
+          color: Colors.black,
+        ),
+        maxLines: null,
+        decoration: InputDecoration(
+          hintText: "Escribir...",
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.grey.shade100),
+          ),
+        ),
+      ),
+    );
+  }
+
+/*
+  _dateActual() {
+    var now = new DateTime.now();
+    var formatter = new DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+    print(formattedDate); // 2016-01-25
+    return formattedDate;
+  }*/
 }

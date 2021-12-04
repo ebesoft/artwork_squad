@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class MyAppBar {
-  //MyAppBar(BuildContext context);
   LoginController loginController = Get.find();
 
   getAppBar(BuildContext context) {
@@ -83,6 +82,7 @@ class MyAppBar {
                   loginController.logOut();
                   Get.offAll(LoginPage());
                 })),
+
       ],
     );
   }

@@ -1,6 +1,4 @@
 import 'package:artwork_squad/app/controllers/home_controller.dart';
-import 'package:artwork_squad/app/controllers/login_controller.dart';
-import 'package:artwork_squad/app/ui/pages/comment/commentDetail.dart';
 import 'package:artwork_squad/app/ui/global_widget/bar.dart';
 import 'package:artwork_squad/app/ui/pages/contenido/widgets/post_widget.dart';
 import 'package:flutter/material.dart';
