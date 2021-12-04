@@ -1,4 +1,3 @@
-import 'package:artwork_squad/app/routes/app_pages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -18,7 +17,7 @@ class LoginController extends GetxController {
       _usuario.value = usuario.user!.email;
       _uid.value = usuario.user!.uid;
 
-      return Future.value(auth);
+      return Future.value(true);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('NOK 1');
@@ -72,5 +71,10 @@ class LoginController extends GetxController {
   String userEmail() {
     String email = FirebaseAuth.instance.currentUser!.email ?? "a@a.com";
     return email;
+  }
+
+  String getUid() {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    return uid;
   }
 }

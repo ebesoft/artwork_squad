@@ -1,21 +1,54 @@
-import 'package:artwork_squad/app/app.dart';
-import 'package:artwork_squad/app/ui/pages/authentication/login_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:artwork_squad/app/controllers/chat_controller.dart';
+import 'package:artwork_squad/app/controllers/login_controller.dart';
+import 'package:artwork_squad/app/data/models/chatMessageModel.dart';
+import 'package:artwork_squad/app/ui/pages/contenido/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get.dart';
 import 'package:mockito/mockito.dart';
 
-class MockFirebaseAuth extends Mock implements FirebaseAuth {}
+class MockChatController extends GetxService
+    with Mock
+    implements ChatController {
+  var messages = <ChatMessage>[].obs;
+  @override
+  Future<void> sendMsg(String text) async {
+    messages.add(ChatMessage('key', text, '001'));
+  }
+}
 
-//class MockFirebaseUser extends Mock implements FirebaseUser {}
-
-//class MockAuthResult extends Mock implements AuthResult {}
+class MockAuthenticationController extends GetxService
+    with Mock
+    implements LoginController {
+  @override
+  String getUid() {
+    return '001';
+  }
+}
 
 void main() {
-  MockFirebaseAuth auth = MockFirebaseAuth();
-  //BehaviorSubject<MockFirebaseUser> _user = BehaviorSubject<MockFirebaseUser>();
+  setUp(() {
+    MockAuthenticationController mockAuthenticationController =
+        MockAuthenticationController();
+    Get.put<LoginController>(mockAuthenticationController);
 
-  group('Prueba de usuario', () {
-    test('Login con email y contraseña', () {});
+    MockChatController mockChatController = MockChatController();
+    Get.put<ChatController>(mockChatController);
+  });
+  testWidgets('Simple chat test', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+      body: HomePage(),
+    )));
+
+    await tester.pump();
+
+    await tester.enterText(find.byKey(const Key('MsgTextField')), 'Juan');
+
+    await tester.tap(find.byKey(const Key('sendButton')));
+
+    await tester.pump();
+
+    expect(find.text('Juan'), findsOneWidget);
   });
 }
