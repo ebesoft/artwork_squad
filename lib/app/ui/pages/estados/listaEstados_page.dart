@@ -1,4 +1,6 @@
 import 'package:artwork_squad/app/controllers/firestore_controller.dart';
+import 'package:artwork_squad/app/controllers/login_controller.dart';
+import 'package:artwork_squad/app/ui/pages/estados/adicionar_estado.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
@@ -13,6 +15,7 @@ class ListaEstados extends StatefulWidget {
 
 class _ListaEstadosState extends State<ListaEstados> {
   FirestoreController controlestados = Get.find();
+  LoginController loginController = Get.find();
 
   @override
   void initState() {
@@ -23,10 +26,10 @@ class _ListaEstadosState extends State<ListaEstados> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Listas Estados'),
+        title: Text('Listados Mensajeros'),
         actions: [
           IconButton(
-              tooltip: 'Adicionar Estado',
+              tooltip: 'Adicionar Mensajero',
               icon: Icon(Icons.add),
               onPressed: () {})
         ],
@@ -35,22 +38,20 @@ class _ListaEstadosState extends State<ListaEstados> {
       body: getInfo(context, controlestados.readItems()),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            getInfo(context, controlestados.readItems());
-          });
-        },
-        tooltip: 'Refrescar',
-        child: Icon(Icons.refresh),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+          onPressed: () {
+            Get.to(() => AgregarEstado());
+          },
+          tooltip: 'Adicionar',
+          child: Icon(Icons
+              .add)), //This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
 
 @override
-Widget getInfo(BuildContext context, Stream<QuerySnapshot> cestados) {
+Widget getInfo(BuildContext context, Stream<QuerySnapshot> ct) {
   return StreamBuilder(
-    stream: cestados,
+    stream: ct,
     /*FirebaseFirestore.instance
         .collection('clientes')
         .snapshots(),*/ //En esta línea colocamos el el objeto Future que estará esperando una respuesta
@@ -66,7 +67,7 @@ Widget getInfo(BuildContext context, Stream<QuerySnapshot> cestados) {
           if (snapshot.hasError) return Text('Error: ${snapshot.error}');
           // print(snapshot.data);
           return snapshot.data != null
-              ? VistaEstados(estados: snapshot.data!.docs)
+              ? Vistamensajeros(mensajeros: snapshot.data!.docs)
               : Text('Sin Datos');
 
         /*
@@ -82,17 +83,17 @@ Widget getInfo(BuildContext context, Stream<QuerySnapshot> cestados) {
   );
 }
 
-class VistaEstados extends StatelessWidget {
-  final List estados;
+class Vistamensajeros extends StatelessWidget {
+  final List mensajeros;
 
-  const VistaEstados({required this.estados});
+  const Vistamensajeros({required this.mensajeros});
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: estados.length == 0 ? 0 : estados.length,
+        itemCount: mensajeros.length == 0 ? 0 : mensajeros.length,
         itemBuilder: (context, posicion) {
-          print(estados[posicion].id);
+          print(mensajeros[posicion].id);
           return Card(
             elevation: 2,
             child: Container(
@@ -104,14 +105,14 @@ class VistaEstados extends StatelessWidget {
                   Row(
                     children: [
                       CircleAvatar(
-                        backgroundImage: NetworkImage(estados[posicion]['']),
+                        backgroundImage: NetworkImage(''),
                       ),
                       const SizedBox(
                         width: 14.0,
                       ),
                       Expanded(
                         child: Text(
-                          'Alexander Vacca ',
+                          mensajeros[posicion]['titulo'],
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.headline6,
                         ),
@@ -126,11 +127,11 @@ class VistaEstados extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: Text('Contenido'),
+                    child: Text(mensajeros[posicion]['name']),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 18.0),
-                    child: Text('Contenido'),
+                    child: Text(mensajeros[posicion]['detalle']),
                   ),
                 ],
               ),
