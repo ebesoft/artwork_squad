@@ -32,19 +32,18 @@ class ChatWidget extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      //print("Valor encontrado 1 ${snapshot.data}");
-                      final chatUid = snapshot.data;
-                      if (snapshot.data != null) {
+                      if (snapshot.hasData) {
+                        final _chatUid = snapshot.data;
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return ChatDetailPage(chatUid!);
+                          return ChatDetailPage(_chatUid!);
                         }));
                       } else {
                         final lastMensaje = "Hola!!";
                         final members = [loginController.getUid(), id];
                         final chat =
                             ChatSala(lastMensaje, DateTime.now(), members);
-                        detail.guardarSala(chat, loginController.getUid());
+                        detail.guardarSala(chat, loginController.getUid(), id);
                       }
                     },
                     child: Container(
@@ -80,6 +79,7 @@ class ChatWidget extends StatelessWidget {
                                           id,
                                           style: TextStyle(fontSize: 16),
                                         ),
+
                                         /*
                           Text(
                             widget.message,

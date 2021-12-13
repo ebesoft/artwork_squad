@@ -27,18 +27,20 @@ class ChatDetailController extends GetxController {
   final DatabaseReference _usuarios =
       FirebaseDatabase.instance.reference().child('Users');
 
-  void guardarMensaje(ChatMessage mensaje) {
-    _mensajesRef.push().set(mensaje.toJson());
+  void guardarMensaje(ChatMessage mensaje, chatUid) {
+    _mensajesRef.child(chatUid).push().set(mensaje.toJson());
   }
 
-  void guardarSala(ChatSala sala, uid) {
+  void guardarSala(ChatSala sala, uid, id) {
     final _keySala = _salaChat.push().key;
     _salaChat.child(_keySala).set(sala.toJson());
 
     //String mGroupId = mGroupRef.Push().getKey();
-    print("Key : ${_keySala}");
+    // pasar el id de la sala para crear a los usuarios con la misma sala.
+    //print("Key : ${_keySala}");
     final userChat = UserChat(_keySala);
     guardarUserSala(userChat, uid);
+    guardarUserSala(userChat, id);
   }
 
   void guardarUserSala(UserChat userSala, uid) {
@@ -46,27 +48,50 @@ class ChatDetailController extends GetxController {
   }
 
   Query getMensajes() => _mensajesRef;
-  getMensajesDetail(id) => _mensajesRef.child(id);
 
+  Future<Map> getMensajesDetail(id) async {
+    final mensajes = await _mensajesRef.child(id).once();
+
+    if (mensajes.value != null) {
+      Map<dynamic, dynamic> values = mensajes.value!;
+      return values;
+    }
+    return Map();
+  }
+
+  /*
+  getMensajesDetail(id) {
+    final mensajes = _mensajesRef.child(id).once();
+    print("Mensajes ${id}");
+    if (mensajes != null) {
+      return mensajes;
+    }
+    return Map();
+  }
+*/
   Query getSala(uidSala) => _salaChat.child(uidSala);
 
   Query getUsuario(id) => _usuarios.child(id);
 
   Future<Map> getuser(id, userid) async {
+    //print("VER ERROR ${id}");
     final sala = await _salaChat.child(id).once();
     //_userSala = sala.key.toString();
-    _userUid1.value = sala.value['members']['uid1'].toString();
-    _userUid2.value = sala.value['members']['uid2'].toString();
+    if (sala.value != null) {
+      _userUid1.value = sala.value['members'][0].toString();
+      _userUid2.value = sala.value['members'][1].toString();
 
-    // Datos del compañero de chat
-    if (userid != _userUid1.value) {
-      _receptor.value = _userUid1.value;
-    } else if (userid != _userUid2.value) {
-      _receptor.value = _userUid2.value;
+      // Datos del compañero de chat
+      if (userid != _userUid1.value) {
+        _receptor.value = _userUid1.value;
+      } else if (userid != _userUid2.value) {
+        _receptor.value = _userUid2.value;
+      }
+      final info = await _usuarios.child(_receptor.value).once();
+      //print("Query ${info.value}");
+      return info.value;
     }
-    final info = await _usuarios.child(_receptor.value).once();
-    //print("Query ${info.value}");
-    return info.value;
+    return Map();
   }
 
   // Comprueba que el usuario incio chat y devuelve la sala
@@ -74,26 +99,31 @@ class ChatDetailController extends GetxController {
     String _userSala;
     //Información de la sala de los usuarios.
     final snapshot = await _userChat.child(id).once();
-    _userSala = snapshot.value[0];
+    if (snapshot.value != null) {
+      Map<dynamic, dynamic> values = snapshot.value!;
+      values.forEach((key, values) {
+        //print("VER ERROR 1 ${key}");
+        //_userSala = snapshot.value[0].toString();
+        _userSala = key;
+        _salaChat.child(_userSala).once().then((data) {
+          //print("ver salas: ${data.value}");
+          _uid.value = data.key;
+          _userUid1.value = data.value['members'][0];
+          _userUid2.value = data.value['members'][1];
+        });
 
-    _salaChat.child(_userSala).once().then((data) {
-      //print("ver salas: ${data.value['lastMensaje']}");
-      _uid.value = data.key;
-      _userUid1.value = data.value['members']['uid1'];
-      _userUid2.value = data.value['members']['uid2'];
-    });
-    //print("User uid ${data.value['members']['uid1']}");
-
-    // Uid de usuarios en la sala
-    if (_userSala == _uid.value) {
-      //print("User uid ${_userUid1.value}, $id");
-      if (id == _userUid1.value || id == _userUid2.value) {
-        //print("User sala $_userSala, ${_uid.value}");
-        return _uid.value;
-      }
+        // Uid de usuarios en la sala
+        if (_userSala == _uid.value) {
+          //print("User uid ${_userUid1.value}, $id");
+          if (id == _userUid1.value || id == _userUid2.value) {
+            //print("User sala $_userSala, ${_uid.value}");
+            return _uid.value;
+          }
+        }
+      });
     }
 
-    return "Sin Data";
+    return _uid.value;
   }
 
   String get uidChat => _uid.value;

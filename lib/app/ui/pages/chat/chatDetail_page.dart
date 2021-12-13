@@ -21,7 +21,12 @@ class ChatDetailPage extends GetView<ChatDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    //var _receptor;
+    String imagen;
+
+    String email;
+
+    String uidUser;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -35,10 +40,17 @@ class ChatDetailPage extends GetView<ChatDetailController> {
                     loginController
                         .getUid()), // a previously-obtained Future<String> or null
                 builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
-                  /*
-                  if (snapshot.data != null) {
-                    _receptor = snapshot.data!['email'];
-                  }*/
+                  if (snapshot.hasData) {
+                    imagen = snapshot.data!['imgUrl'];
+                    email = snapshot.data!['email'];
+                    uidUser = snapshot.data!['email'];
+                  } else {
+                    imagen =
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRWXUImijoB6F3msIRS96kTHW8YpthkyaONhzthSC4v7RYUzFya";
+                    email = "None";
+                    uidUser = "None";
+                  }
+
                   return Row(
                     children: <Widget>[
                       IconButton(
@@ -53,7 +65,7 @@ class ChatDetailPage extends GetView<ChatDetailController> {
                         width: 2,
                       ),
                       CircleAvatar(
-                        backgroundImage: NetworkImage(snapshot.data!['imgUrl']),
+                        backgroundImage: NetworkImage(imagen),
                         maxRadius: 20,
                       ),
                       SizedBox(
@@ -65,7 +77,7 @@ class ChatDetailPage extends GetView<ChatDetailController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              snapshot.data!['email'],
+                              email,
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w600),
                             ),
@@ -73,7 +85,7 @@ class ChatDetailPage extends GetView<ChatDetailController> {
                               height: 6,
                             ),
                             Text(
-                              snapshot.data!['id'],
+                              uidUser,
                               style: TextStyle(
                                   color: Colors.grey.shade600, fontSize: 13),
                             ),
@@ -166,21 +178,24 @@ class ChatDetailPage extends GetView<ChatDetailController> {
     if (_puedoEnviarMensaje()) {
       final mensaje = ChatMessage(detailChat.mensajeController.text,
           DateTime.now(), loginController.getUid(), false);
-      detailChat.guardarMensaje(mensaje);
+      detailChat.guardarMensaje(mensaje, chatUid);
       detailChat.clearText();
     }
   }
 
   Widget _getListaMensajes() {
+    //final Future<Map> mensajes = detailChat.getMensajesDetail(chatUid);
     return Expanded(
-      child: FutureBuilder(
-          future: detailChat.getMensajesDetail(chatUid).once(),
-          builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
+      child: FutureBuilder<Map>(
+          future: detailChat.getMensajesDetail(chatUid),
+          builder: (context, AsyncSnapshot<Map> snapshot) {
             List lists = [];
+            _logger.i("Lista, ${snapshot.data}");
             if (snapshot.hasData) {
               lists.clear();
-              Map<dynamic, dynamic> values = snapshot.data!.value;
+              Map<dynamic, dynamic> values = snapshot.data!;
               values.forEach((key, values) {
+                _logger.i("Lista, ${key}");
                 lists.add(values);
               });
               return ListView.builder(
@@ -222,7 +237,7 @@ class ChatDetailPage extends GetView<ChatDetailController> {
                 },
               );
             }
-            return CircularProgressIndicator();
+            return Text("Sin mensajes");
           }),
     );
   }
