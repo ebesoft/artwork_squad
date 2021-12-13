@@ -80,7 +80,7 @@ class MyAppBar {
               icon: Icon(Icons.logout_outlined),
               onPressed: () {
                 loginController.logOut();
-                Get.offAll(LoginPage());
+                Get.offAll(() => LoginPage());
               }),
         ),
         Padding(
@@ -91,7 +91,6 @@ class MyAppBar {
             backgroundColor: Colors.transparent,
           ),
         ),
-
       ],
     );
   }

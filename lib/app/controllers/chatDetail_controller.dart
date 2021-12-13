@@ -47,7 +47,7 @@ class ChatDetailController extends GetxController {
     _userChat.child(uid).set(userSala.toJson());
   }
 
-  Query getMensajes() => _mensajesRef;
+  /*Query getMensajes() => _mensajesRef;*/
 
   Future<Map> getMensajesDetail(id) async {
     final mensajes = await _mensajesRef.child(id).once();
@@ -73,6 +73,7 @@ class ChatDetailController extends GetxController {
 
   Query getUsuario(id) => _usuarios.child(id);
 
+// En uso.
   Future<Map> getuser(id, userid) async {
     //print("VER ERROR ${id}");
     final sala = await _salaChat.child(id).once();

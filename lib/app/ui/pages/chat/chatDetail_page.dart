@@ -190,12 +190,12 @@ class ChatDetailPage extends GetView<ChatDetailController> {
           future: detailChat.getMensajesDetail(chatUid),
           builder: (context, AsyncSnapshot<Map> snapshot) {
             List lists = [];
-            _logger.i("Lista, ${snapshot.data}");
+            //_logger.i("Lista, ${snapshot.data}");
             if (snapshot.hasData) {
               lists.clear();
               Map<dynamic, dynamic> values = snapshot.data!;
               values.forEach((key, values) {
-                _logger.i("Lista, ${key}");
+                //_logger.i("Lista, ${key}");
                 lists.add(values);
               });
               return ListView.builder(
