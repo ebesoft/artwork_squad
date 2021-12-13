@@ -2,24 +2,26 @@ import 'package:artwork_squad/app/controllers/chatDetail_controller.dart';
 import 'package:artwork_squad/app/controllers/controllerRealtime.dart';
 import 'package:artwork_squad/app/controllers/login_controller.dart';
 import 'package:artwork_squad/app/data/models/chatMessageModel.dart';
-import 'package:artwork_squad/app/ui/pages/chat/widgets/chatDetail_widget.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-import 'package:intl/intl.dart';
 
 // Trae el detalle del chat.
 class ChatDetailPage extends GetView<ChatDetailController> {
+  String chatUid;
+
+  ChatDetailPage(this.chatUid);
+
   LoginController loginController = Get.find();
   RealtimeController controlReal = Get.find();
   ChatDetailController detailChat = Get.find();
 
-  //_mensajeController = detailChat.mensajeController;
   Logger _logger = new Logger();
 
   @override
   Widget build(BuildContext context) {
+    //var _receptor;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -27,53 +29,63 @@ class ChatDetailPage extends GetView<ChatDetailController> {
         flexibleSpace: SafeArea(
           child: Container(
             padding: EdgeInsets.only(right: 16),
-            child: Row(
-              children: <Widget>[
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(
-                    Icons.arrow_back,
-                  ),
-                ),
-                SizedBox(
-                  width: 2,
-                ),
-                CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://elrincondeldchome.files.wordpress.com/2019/06/joe-west.jpg?w=500"),
-                  maxRadius: 20,
-                ),
-                SizedBox(
-                  width: 12,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
+            child: FutureBuilder<Map>(
+                future: detailChat.getuser(
+                    chatUid,
+                    loginController
+                        .getUid()), // a previously-obtained Future<String> or null
+                builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
+                  /*
+                  if (snapshot.data != null) {
+                    _receptor = snapshot.data!['email'];
+                  }*/
+                  return Row(
                     children: <Widget>[
-                      Text(
-                        "Kriss Benwat",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(
+                          Icons.arrow_back,
+                        ),
                       ),
                       SizedBox(
-                        height: 6,
+                        width: 2,
                       ),
-                      Text(
-                        "Online",
-                        style: TextStyle(
-                            color: Colors.grey.shade600, fontSize: 13),
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(snapshot.data!['imgUrl']),
+                        maxRadius: 20,
+                      ),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              snapshot.data!['email'],
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              height: 6,
+                            ),
+                            Text(
+                              snapshot.data!['id'],
+                              style: TextStyle(
+                                  color: Colors.grey.shade600, fontSize: 13),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Icon(
+                        Icons.settings,
                       ),
                     ],
-                  ),
-                ),
-                Icon(
-                  Icons.settings,
-                ),
-              ],
-            ),
+                  );
+                }),
           ),
         ),
       ),
@@ -152,8 +164,8 @@ class ChatDetailPage extends GetView<ChatDetailController> {
 
   void _enviarMensaje() {
     if (_puedoEnviarMensaje()) {
-      final mensaje = ChatMessage(
-          detailChat.mensajeController.text, DateTime.now(), 'transmitter');
+      final mensaje = ChatMessage(detailChat.mensajeController.text,
+          DateTime.now(), loginController.getUid(), false);
       detailChat.guardarMensaje(mensaje);
       detailChat.clearText();
     }
@@ -161,16 +173,57 @@ class ChatDetailPage extends GetView<ChatDetailController> {
 
   Widget _getListaMensajes() {
     return Expanded(
-      child: FirebaseAnimatedList(
-        query: detailChat.getMensajes(),
-        itemBuilder: (context, snapshot, animation, index) {
-          final json = snapshot.value as Map<dynamic, dynamic>;
-          //print('Id_unico:${snapshot.key}');
-          final mensaje = ChatMessage.fromJson(json);
-          _logger.i('Estado $json');
-          return MensajeWidget(mensaje.texto, mensaje.fecha, mensaje.tipo);
-        },
-      ),
+      child: FutureBuilder(
+          future: detailChat.getMensajesDetail(chatUid).once(),
+          builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
+            List lists = [];
+            if (snapshot.hasData) {
+              lists.clear();
+              Map<dynamic, dynamic> values = snapshot.data!.value;
+              values.forEach((key, values) {
+                lists.add(values);
+              });
+              return ListView.builder(
+                itemCount: lists.length,
+                shrinkWrap: true,
+                padding: EdgeInsets.only(top: 5, bottom: 5),
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: 16, right: 16, top: 5, bottom: 5),
+                        child: Align(
+                          // Dependiendo si es emisor o receptor alinea el texto.
+                          alignment: (loginController.getUid() !=
+                                  lists[index]["sendBy"]
+                              ? Alignment.topLeft
+                              : Alignment.topRight),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: (loginController.getUid() !=
+                                      lists[index]["sendBy"]
+                                  ? Colors.grey.shade200
+                                  : Colors.blue[200]),
+                            ),
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              lists[index]["message"],
+                              style: TextStyle(
+                                  fontSize: 15, color: Colors.black54),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+            return CircularProgressIndicator();
+          }),
     );
   }
 

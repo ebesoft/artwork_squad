@@ -1,12 +1,15 @@
+import 'package:artwork_squad/app/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MensajeWidget extends StatelessWidget {
-  final String texto;
+  final String message;
   final DateTime fecha;
-  //final String idmensaje;
-  final String tipo;
+  final String sendBy;
+  final bool estado;
 
-  MensajeWidget(this.texto, this.fecha, this.tipo);
+  MensajeWidget(this.message, this.fecha, this.sendBy, this.estado);
+  LoginController loginController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -22,19 +25,19 @@ class MensajeWidget extends StatelessWidget {
               padding: EdgeInsets.only(left: 16, right: 16, top: 5, bottom: 5),
               child: Align(
                 // Dependiendo si es emisor o receptor alinea el texto.
-                alignment: (tipo == "receiver"
+                alignment: (loginController.getUid() != sendBy
                     ? Alignment.topLeft
                     : Alignment.topRight),
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: (tipo == "receiver"
+                    color: (loginController.getUid() != sendBy
                         ? Colors.grey.shade200
                         : Colors.blue[200]),
                   ),
                   padding: EdgeInsets.all(10),
                   child: Text(
-                    texto,
+                    message,
                     style: TextStyle(fontSize: 15, color: Colors.black54),
                   ),
                 ),

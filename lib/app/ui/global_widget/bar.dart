@@ -75,13 +75,22 @@ class MyAppBar {
                   Get.toNamed(Routes.CHAT);
                 })),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            child: IconButton(
-                icon: Icon(Icons.logout),
-                onPressed: () {
-                  loginController.logOut();
-                  Get.offAll(LoginPage());
-                })),
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          child: IconButton(
+              icon: Icon(Icons.logout_outlined),
+              onPressed: () {
+                loginController.logOut();
+                Get.offAll(LoginPage());
+              }),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(
+                'https://elrincondeldchome.files.wordpress.com/2019/06/joe-west.jpg?w=500'),
+            backgroundColor: Colors.transparent,
+          ),
+        ),
 
       ],
     );
