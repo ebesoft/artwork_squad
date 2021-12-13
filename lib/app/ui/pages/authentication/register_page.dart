@@ -139,24 +139,23 @@ class RegisterPage extends GetView<RegisterController> {
       child: Column(
         children: <Widget>[
           TextFormField(
-            controller: this.passController,
-            obscureText: true,
-            decoration: InputDecoration(
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
-              labelText: 'Ingresar Contraseña',
-              suffixIcon: Icon(Icons.lock_open),
-              icon: Icon(Icons.lock),
-            ),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return "La contraseña es requerida";
-              } else if (value.length < 6) {
-                return "La contraseña debe tener al menos 6 caracteres";
-              }
-              return null;
-            },
-          )
+              controller: this.passController,
+              obscureText: true,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0)),
+                labelText: 'Ingresar Contraseña',
+                suffixIcon: Icon(Icons.lock_open),
+                icon: Icon(Icons.lock),
+              ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "La contraseña es requerida";
+                } else if (value.length < 6) {
+                  return "La contraseña debe tener al menos 6 caracteres";
+                }
+                //return null;
+              }),
         ],
       ),
     );
@@ -168,24 +167,23 @@ class RegisterPage extends GetView<RegisterController> {
       child: Column(
         children: <Widget>[
           TextFormField(
-            controller: this.confirmController,
-            obscureText: true,
-            decoration: InputDecoration(
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
-              labelText: 'Confirmar Contraseña',
-              suffixIcon: Icon(Icons.lock_open),
-              icon: Icon(Icons.lock),
-            ),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return "La contraseña es requerida";
-              } else if (value.length < 6) {
-                return "La contraseña debe tener al menos 6 caracteres";
-              }
-              return null;
-            },
-          )
+              controller: this.confirmController,
+              obscureText: true,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0)),
+                labelText: 'Confirmar Contraseña',
+                suffixIcon: Icon(Icons.lock_open),
+                icon: Icon(Icons.lock),
+              ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "La contraseña es requerida";
+                } else if (value.length < 6) {
+                  return "La contraseña debe tener al menos 6 caracteres";
+                }
+                //return null;
+              }),
         ],
       ),
     );
