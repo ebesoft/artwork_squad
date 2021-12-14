@@ -35,7 +35,7 @@ class NotificationPage extends GetView<NotificationController> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                "Notificaciones",
+                                "Estados",
                                 style: TextStyle(
                                     fontSize: 32, fontWeight: FontWeight.bold),
                               ),

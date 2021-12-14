@@ -39,23 +39,42 @@ class NotificationList extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text(
-                                    estados[posicion]['email'],
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    estados[posicion]['title'] +
-                                        ". " +
-                                        estados[posicion]['detalle'],
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.grey.shade600,
-                                        fontWeight: estados[posicion]['estado']
-                                            ? FontWeight.bold
-                                            : FontWeight.normal),
+                                  Row(
+                                    children: <Widget>[
+                                      CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            estados[posicion]['photo']),
+                                        maxRadius: 30,
+                                      ),
+                                      SizedBox(
+                                        width: 16,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            estados[posicion]['email'],
+                                            style: TextStyle(fontSize: 16),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            estados[posicion]['title'] +
+                                                ". " +
+                                                estados[posicion]['detalle'],
+                                            style: TextStyle(
+                                                fontSize: 13,
+                                                color: Colors.grey.shade600,
+                                                fontWeight: estados[posicion]
+                                                        ['estado']
+                                                    ? FontWeight.bold
+                                                    : FontWeight.normal),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
