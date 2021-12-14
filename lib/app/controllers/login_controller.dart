@@ -14,6 +14,8 @@ class LoginController extends GetxController {
       "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRWXUImijoB6F3msIRS96kTHW8YpthkyaONhzthSC4v7RYUzFya"
           .obs;
 
+  String get photo => _photo.value;
+
   final DatabaseReference _usersRef =
       FirebaseDatabase.instance.reference().child('Users');
 

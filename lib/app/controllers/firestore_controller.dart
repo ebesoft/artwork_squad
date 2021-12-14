@@ -5,6 +5,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 class FirestoreController extends GetxController {
   static final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  // Control de estados.
   Stream<QuerySnapshot> readItems() {
     CollectionReference listado = _db.collection('estados');
 
