@@ -13,7 +13,7 @@ class MockChatController extends GetxService
   var messages = <ChatMessage>[].obs;
   @override
   Future<void> sendMsg(String text) async {
-    messages.add(ChatMessage('key', text, '001'));
+    messages.add(ChatMessage('key', DateTime.now(), text, false));
   }
 }
 

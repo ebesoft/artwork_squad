@@ -8,9 +8,11 @@ class LoginController extends GetxController {
   static FirebaseAuth auth = FirebaseAuth.instance;
   late Rx<dynamic> _usuario = "Sin Registro".obs;
   late Rx<dynamic> _uid = "0".obs;
-  late Rx<dynamic> _validarUid = "".obs;
   String get userf => _usuario.value;
   String get uidrf => _uid.value;
+  late Rx<dynamic> _photo =
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRWXUImijoB6F3msIRS96kTHW8YpthkyaONhzthSC4v7RYUzFya"
+          .obs;
 
   final DatabaseReference _usersRef =
       FirebaseDatabase.instance.reference().child('Users');
@@ -23,11 +25,16 @@ class LoginController extends GetxController {
       _usuario.value = usuario.user!.email;
       _uid.value = usuario.user!.uid;
 
-      _validarUid.value = getUser(_uid.value);
-      //print("Usuario Existe: ${_validarUid.value}");
-      if (_validarUid.value) {
-        print("Ingreso");
+      //_validarUid.value = await getUser(_uid.value);
+      //print("Usuario Existe: ${await getUser(_uid.value)}");
+      if (usuario.user!.photoURL != null) {
+        _photo.value = usuario.user!.photoURL;
       }
+      if (await getUser(_uid.value) == false) {
+        final users = UserModel(_usuario.value, _uid.value, _photo.value);
+        guardarUsuario(users);
+      }
+
       return Future.value(true);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -67,12 +74,19 @@ class LoginController extends GetxController {
         idToken: googleAuth.idToken,
       );
 
-      // Once signed in, return the UserCredential
+      // Una vez que haya iniciado sesión, devuelva la credencial de usuario
       UserCredential usuario =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
       _usuario.value = usuario.user!.email;
       _uid.value = usuario.user!.uid;
+      if (usuario.user!.photoURL != null) {
+        _photo.value = usuario.user!.photoURL;
+      }
+      if (await getUser(_uid.value) == false) {
+        final users = UserModel(_usuario.value, _uid.value, _photo.value);
+        guardarUsuario(users);
+      }
 
       return Future.value(true);
     } catch (e) {
@@ -96,16 +110,16 @@ class LoginController extends GetxController {
   }
 
 // Devuelve instancia del usuario
-  Future<String> getUser(id) async {
+  Future getUser(id) async {
     //String _chat;
     final snapshot = await _usersRef.child(id).once();
 
     if (snapshot.value != null) {
-      Map<dynamic, dynamic> values = snapshot.value!;
+      //Map<dynamic, dynamic> values = snapshot!;
       //_validarUid.value = values;
-      //print("Sala: ${values['id']}");
-      return values['id'].toString();
+      //print("Sala: ${snapshot.key}");
+      return true;
     }
-    return "";
+    return false;
   }
 }

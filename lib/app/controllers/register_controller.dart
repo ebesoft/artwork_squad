@@ -22,7 +22,7 @@ class RegisterController extends GetxController {
       _usuarior.value = usuario.user!.email;
       _uid.value = usuario.user!.uid;
       //_photo.value = usuario.user!.photoURL;
-      print("Error ${usuario.user!.photoURL}");
+      //print("Error ${usuario.user!.photoURL}");
       if (usuario.user!.photoURL != null) {
         _photo.value = usuario.user!.photoURL;
       }

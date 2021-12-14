@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 
 class NotificationUsers {
-  final String name;
+  final String email;
   final String message;
-  final String time;
+  final DateTime time;
+  final bool estado;
 
-  NotificationUsers({
-    required this.name,
-    required this.message,
-    required this.time,
-  });
+  NotificationUsers(
+    this.email,
+    this.message,
+    this.time,
+    this.estado,
+  );
+
+  NotificationUsers.fromJson(Map<dynamic, dynamic> json)
+      : email = json['email'] as String,
+        message = json['message'] as String,
+        time = DateTime.parse(json['time'] as String),
+        estado = json['estado'] as bool;
+
+  Map<dynamic, dynamic> toJson() => <dynamic, dynamic>{
+        'email': email,
+        'message': message,
+        'time': time,
+      };
 }

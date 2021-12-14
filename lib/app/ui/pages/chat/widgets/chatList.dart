@@ -114,7 +114,9 @@ class ChatWidget extends StatelessWidget {
                   );
                 });
           }
-          return Divider();
+          return SizedBox(
+            height: 6,
+          );
         });
   }
 }
