@@ -1,87 +1,86 @@
-import 'package:artwork_squad/app/ui/pages/chat/chatDetail_page.dart';
 import 'package:artwork_squad/app/ui/pages/comment/commentDetail.dart';
 import 'package:flutter/material.dart';
 
 // Devuelve la plantilla que contiene los valores.
-class PostWidget extends StatefulWidget {
-  String name;
-  String avatar;
-  String estado;
-  String message;
-  String photo;
+class PostWidget extends StatelessWidget {
+  final List post;
+  final String uid;
 
   PostWidget({
-    required this.name,
-    required this.avatar,
-    required this.estado,
-    required this.message,
-    required this.photo,
+    required this.post,
+    required this.uid,
   });
 
   @override
-  _PostWidgetState createState() => _PostWidgetState();
-}
-
-class _PostWidgetState extends State<PostWidget> {
-  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        //padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
-        child: Card(
-          elevation: 2,
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Container(
-                  color: Colors.transparent,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage(widget.avatar),
-                          backgroundColor: Colors.transparent,
+    return ListView.builder(
+        itemCount: post.length == 0 ? 0 : post.length,
+        shrinkWrap: true,
+        padding: EdgeInsets.only(top: 16),
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {},
+            child: Container(
+              //padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
+              child: Card(
+                elevation: 2,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        color: Colors.transparent,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage:
+                                    NetworkImage(post[index]['photo']),
+                                backgroundColor: Colors.transparent,
+                              ),
+                              title: Text(post[index]['email']),
+                              subtitle: Text(""),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                post[index]['detalle'],
+                                textAlign: TextAlign.justify,
+                              ),
+                            ),
+                            ButtonBar(
+                              alignment: MainAxisAlignment.start,
+                              children: [
+                                IconButton(
+                                    icon: Icon(Icons.favorite_outline_sharp),
+                                    onPressed: () {}),
+                                IconButton(
+                                    icon: Icon(Icons.comment_bank_outlined),
+                                    onPressed: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return CommentDetailPage();
+                                      }));
+                                    }),
+                              ],
+                            ),
+                          ],
                         ),
-                        title: Text(widget.name),
-                        subtitle: Text(widget.estado),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(widget.message),
+                    ),
+                    Expanded(
+                      child: Image.network(
+                        post[index]['photoPost'],
+                        height: 250,
+                        fit: BoxFit.cover,
                       ),
-                      ButtonBar(
-                        alignment: MainAxisAlignment.start,
-                        children: [
-                          IconButton(
-                              icon: Icon(Icons.favorite_outline_sharp),
-                              onPressed: () {}),
-                          IconButton(
-                              icon: Icon(Icons.comment_bank_outlined),
-                              onPressed: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return CommentDetailPage();
-                                }));
-                              }),
-                        ],
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-              Expanded(
-                child: Image.network(
-                  widget.photo,
-                  height: 250,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
+        });
   }
 }

@@ -26,10 +26,4 @@ class NotificationController extends GetxController {
     // TODO: implement onClose
     super.onClose();
   }
-
-  title() {
-    controltitulo.value;
-
-    update();
-  }
 }

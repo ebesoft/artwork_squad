@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as fs;
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 class FirestoreController extends GetxController {
+  static final fs.FirebaseStorage storage = fs.FirebaseStorage.instance;
   static final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   // Control de estados.
@@ -41,7 +43,13 @@ class FirestoreController extends GetxController {
     return listado.snapshots();
   }
 
-  Future<void> createPost(Map<String, dynamic> post) async {
+  Future<void> createPost(Map<String, dynamic> post, photoPost) async {
+    var url = '';
+    if (photoPost != null)
+      url = await cargarfoto(photoPost, DateTime.now().toString());
+    print(url);
+    photoPost['photoPost'] = url.toString();
+
     await _db.collection('post').doc().set(post).catchError((e) {
       print(e);
     });
@@ -61,6 +69,18 @@ class FirestoreController extends GetxController {
       print(e);
     });
     //return true;
+  }
+
+  Future<dynamic> cargarfoto(var foto, var idfoto) async {
+    final fs.Reference storageReference =
+        fs.FirebaseStorage.instance.ref().child("Post");
+
+    fs.TaskSnapshot taskSnapshot =
+        await storageReference.child(idfoto).putFile(foto);
+
+    var url = await taskSnapshot.ref.getDownloadURL();
+    print('url:' + url.toString());
+    return url.toString();
   }
 
   // Locations

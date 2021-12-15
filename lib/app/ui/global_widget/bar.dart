@@ -39,21 +39,16 @@ class MyAppBar {
           ),
         ],
       ),
-      title: TextButton(
-        onPressed: () => Get.toNamed(Routes.HOME),
-        child: Text('Artwork Squad',
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-      ),
       actions: <Widget>[
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5),
+            padding: EdgeInsets.symmetric(horizontal: 2),
             child: IconButton(
-                icon: Icon(Icons.add_circle_outline_outlined),
+                icon: Icon(Icons.home_filled),
                 onPressed: () {
-                  Get.toNamed(Routes.POST);
+                  Get.toNamed(Routes.HOME);
                 })),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
+          padding: EdgeInsets.symmetric(horizontal: 2),
           child: IconButton(
               icon: Icon(Icons.notifications_active),
               onPressed: () {
@@ -61,21 +56,21 @@ class MyAppBar {
               }),
         ),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5),
+            padding: EdgeInsets.symmetric(horizontal: 2),
             child: IconButton(
                 icon: Icon(Icons.location_on),
                 onPressed: () {
                   Get.offNamed(Routes.LOCATION);
                 })),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5),
+            padding: EdgeInsets.symmetric(horizontal: 2),
             child: IconButton(
                 icon: Icon(Icons.chat_outlined),
                 onPressed: () {
                   Get.toNamed(Routes.CHAT);
                 })),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
+          padding: EdgeInsets.symmetric(horizontal: 2),
           child: IconButton(
               icon: Icon(Icons.logout_outlined),
               onPressed: () {
@@ -84,7 +79,7 @@ class MyAppBar {
               }),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
+          padding: EdgeInsets.symmetric(horizontal: 2),
           child: CircleAvatar(
             backgroundImage: NetworkImage(
                 'https://elrincondeldchome.files.wordpress.com/2019/06/joe-west.jpg?w=500'),
