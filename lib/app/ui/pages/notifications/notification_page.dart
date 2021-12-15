@@ -72,7 +72,7 @@ Widget getInfo(
         .collection('clientes')
         .snapshots(),*/ //En esta línea colocamos el el objeto Future que estará esperando una respuesta
     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-      print(snapshot.connectionState);
+      //print(snapshot.connectionState);
       switch (snapshot.connectionState) {
 
         //En este case estamos a la espera de la respuesta, mientras tanto mostraremos el loader

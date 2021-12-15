@@ -21,6 +21,7 @@ class FirestoreController extends GetxController {
 
 //'MWPy56bgx9wYBzul88rR'
   Future<void> actualizarestado(String id, Map<String, dynamic> estados) async {
+    print("Data: $id");
     await _db.collection('estados').doc(id).update(estados).catchError((e) {
       print(e);
     });

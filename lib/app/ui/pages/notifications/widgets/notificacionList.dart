@@ -1,4 +1,6 @@
+import 'package:artwork_squad/app/ui/pages/notifications/widgets/editar_notificacion.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 // Devuelve la plantilla que contiene los valores.
 class NotificationList extends StatelessWidget {
@@ -18,12 +20,11 @@ class NotificationList extends StatelessWidget {
           return GestureDetector(
               onTap: () {
                 if (uidrf == estados[posicion]['uid']) {
-                  /*Get.to(() => ModificarEstado(
-                                      estado: estados,
-                                      pos: posicion,
-                                      iddoc: estados[posicion].id,
-                                    ));*/
-
+                  Get.to(() => ModificarEstado(
+                        estado: estados,
+                        pos: posicion,
+                        iddoc: estados[posicion].id,
+                      ));
                 }
               },
               child: Container(
@@ -54,16 +55,16 @@ class NotificationList extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
-                                            estados[posicion]['email'],
+                                            estados[posicion]['email'] +
+                                                " - " +
+                                                estados[posicion]['title'],
                                             style: TextStyle(fontSize: 16),
                                           ),
                                           SizedBox(
                                             height: 5,
                                           ),
                                           Text(
-                                            estados[posicion]['title'] +
-                                                ". " +
-                                                estados[posicion]['detalle'],
+                                            estados[posicion]['detalle'],
                                             style: TextStyle(
                                                 fontSize: 13,
                                                 color: Colors.grey.shade600,
@@ -83,18 +84,18 @@ class NotificationList extends StatelessWidget {
                         ],
                       ),
                     ),
-                    /*
-                    Text(
-                      //estados[posicion]['time']
-                      //DateFormat('kk:mma')
-                      //    .format(estados[posicion]['time'])
-                      //    .toString(),
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: estados[posicion]['estado']
-                              ? FontWeight.bold
-                              : FontWeight.normal),
-                    ),*/
+                    (uidrf == estados[posicion]['uid'])
+                        ? IconButton(
+                            onPressed: () {
+                              Get.to(() => ModificarEstado(
+                                    estado: estados,
+                                    pos: posicion,
+                                    iddoc: estados[posicion].id,
+                                  ));
+                            },
+                            icon: Icon(Icons.edit),
+                          )
+                        : Text(''),
                   ],
                 ),
               ));
