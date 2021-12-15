@@ -60,6 +60,7 @@ class ModificarEstado extends GetView<NotificationController> {
               ),
               TextField(
                 controller: controltitulo,
+                maxLines: null,
                 decoration: InputDecoration(labelText: "Titulo"),
               ),
               SizedBox(
@@ -67,6 +68,7 @@ class ModificarEstado extends GetView<NotificationController> {
               ),
               TextField(
                 controller: controldetalle,
+                maxLines: null,
                 decoration: InputDecoration(labelText: "Detalle"),
               ),
               ElevatedButton(

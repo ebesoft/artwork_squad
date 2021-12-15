@@ -23,10 +23,12 @@ class AgregarEstado extends StatelessWidget {
             children: <Widget>[
               TextField(
                 controller: controltitulo,
+                maxLines: null,
                 decoration: InputDecoration(labelText: "Titulo"),
               ),
               TextField(
                 controller: controldetalle,
+                maxLines: null,
                 decoration: InputDecoration(labelText: "Descripcion"),
               ),
               ElevatedButton(

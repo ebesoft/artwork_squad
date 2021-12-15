@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 // ignore: unused_import
 
 class LocationPage extends GetView<LocationController> {
+  //final List locations;
   final items = List<String>.generate(8, (i) => "Item $i");
 
   @override

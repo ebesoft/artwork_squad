@@ -44,6 +44,7 @@ dependencies:
 
   google_sign_in: ^5.0.7
   font_awesome_flutter: ^9.2.0
+  flutter_local_notifications: ^9.1.5
 
 
   # GetX es una solución extra ligera y potente para Flutter. 
