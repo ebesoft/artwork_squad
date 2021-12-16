@@ -5,6 +5,8 @@ class PostModel {
   final String photo;
   final String photoPost;
   final String uid;
+  final int like;
+  final int comment;
 
   PostModel(
     this.email,
@@ -13,6 +15,8 @@ class PostModel {
     this.photo,
     this.photoPost,
     this.uid,
+    this.like,
+    this.comment,
   );
   PostModel.fromJson(Map<dynamic, dynamic> json)
       : email = json['email'] as String,
@@ -20,7 +24,9 @@ class PostModel {
         estado = json['estado'] as bool,
         photo = json['photo'] as String,
         photoPost = json['photoPost'] as String,
-        uid = json['uid'] as String;
+        uid = json['uid'] as String,
+        like = json['like'],
+        comment = json['comment'];
 
   Map<dynamic, dynamic> toJson() => <dynamic, dynamic>{
         'email': email,
@@ -29,5 +35,7 @@ class PostModel {
         'photo': photo,
         'photoPost': photoPost,
         'uid': uid,
+        'like': like,
+        'comment': comment,
       };
 }

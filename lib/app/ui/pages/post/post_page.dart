@@ -104,7 +104,9 @@ class _PostPageState extends State<PostPage> {
                     'photo': user.photo,
                     'email': user.userf,
                     'uid': user.getUid(),
-                    'photoPost': ''
+                    'photoPost': '',
+                    'like': 0,
+                    'comment': 0,
                   };
 
                   control.createPost(post, _image);

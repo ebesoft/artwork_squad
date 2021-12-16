@@ -71,6 +71,14 @@ class FirestoreController extends GetxController {
     //return true;
   }
 
+  Future<void> likePost(String id, like) async {
+    photoPost = like++;
+    await _db.collection('post').doc(id).update(post).catchError((e) {
+      print(e);
+    });
+    //return true;
+  }
+
   Future<void> eliminarPost(String id) async {
     await _db.collection('post').doc(id).delete().catchError((e) {
       print(e);
@@ -86,7 +94,7 @@ class FirestoreController extends GetxController {
         await storageReference.child(idfoto).putFile(foto);
 
     var url = await taskSnapshot.ref.getDownloadURL();
-    print('url:' + url.toString());
+    //print('url:' + url.toString());
     return url.toString();
   }
 

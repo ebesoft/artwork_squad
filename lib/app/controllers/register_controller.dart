@@ -8,7 +8,7 @@ class RegisterController extends GetxController {
   late Rx<dynamic> _usuarior = "Sin Registro".obs;
   late Rx<dynamic> _uid = "0".obs;
   late Rx<dynamic> _photo =
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRWXUImijoB6F3msIRS96kTHW8YpthkyaONhzthSC4v7RYUzFya"
+      "https://firebasestorage.googleapis.com/v0/b/artwork-squad.appspot.com/o/user.png?alt=media&token=7ab87de4-fbd8-4f4b-aaaa-527521220eca"
           .obs;
   String get userf => _usuarior.value;
 

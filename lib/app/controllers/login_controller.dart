@@ -11,7 +11,7 @@ class LoginController extends GetxController {
   String get userf => _usuario.value;
   String get uidrf => _uid.value;
   late Rx<dynamic> _photo =
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRWXUImijoB6F3msIRS96kTHW8YpthkyaONhzthSC4v7RYUzFya"
+      "https://firebasestorage.googleapis.com/v0/b/artwork-squad.appspot.com/o/user.png?alt=media&token=7ab87de4-fbd8-4f4b-aaaa-527521220eca"
           .obs;
 
   String get photo => _photo.value;

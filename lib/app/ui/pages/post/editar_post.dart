@@ -69,7 +69,7 @@ class _EditarPostPageState extends State<EditarPostPage> {
               tooltip: 'Eliminar Estado',
               icon: Icon(Icons.delete),
               onPressed: () {
-                //controlestados.eliminarPost(estado[pos].id);
+                control.eliminarPost(widget.post[widget.index].id);
                 Get.back();
               })
         ],
@@ -97,20 +97,21 @@ class _EditarPostPageState extends State<EditarPostPage> {
                     height: 200,
                     width: double.maxFinite,
                     child: Card(
-                        elevation: 5,
-                        child: _image != null
-                            ? Image.file(
-                                _image,
-                                width: 100,
-                                height: 150,
-                                fit: BoxFit.fitHeight,
-                              )
-                            : Image.network(
-                                _imagen,
-                                width: 100,
-                                height: 150,
-                                fit: BoxFit.fitHeight,
-                              )),
+                      elevation: 5,
+                      child: _image != null
+                          ? Image.file(
+                              _image,
+                              width: 100,
+                              height: 150,
+                              fit: BoxFit.fitHeight,
+                            )
+                          : Image.network(
+                              _imagen,
+                              width: 100,
+                              height: 150,
+                              fit: BoxFit.fitHeight,
+                            ),
+                    ),
                   ),
                 ),
               ),
@@ -140,6 +141,8 @@ class _EditarPostPageState extends State<EditarPostPage> {
                     'email': user.userf,
                     'uid': user.getUid(),
                     'photoPost': _imagen,
+                    'like': widget.post[widget.index]['email'],
+                    'comment': widget.post[widget.index]['email'],
                   };
 
                   control.updatePost(
