@@ -17,19 +17,6 @@ class ModificarEstado extends GetView<NotificationController> {
   NotificationController ctrNoti = Get.find();
   Logger _logger = new Logger();
 
-/*
-  @override
-  void initState() {
-    controltitulo =
-        TextEditingController(text: widget.estado[widget.pos]['titulo']);
-    controldetalle =
-        TextEditingController(text: widget.estado[widget.pos]['detalle']);
-
-    // TODO: implement initState
-    super.initState();
-  }
-*/
-
   @override
   Widget build(BuildContext context) {
     controltitulo = TextEditingController(text: estado[pos]['title']);

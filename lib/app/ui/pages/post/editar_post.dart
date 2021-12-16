@@ -7,12 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class PostPage extends StatefulWidget {
+class EditarPostPage extends StatefulWidget {
+  final iddoc;
+  final index;
+  final List post;
+  EditarPostPage({required this.post, this.index, this.iddoc});
+
   @override
-  _PostPageState createState() => _PostPageState();
+  _EditarPostPageState createState() => _EditarPostPageState();
 }
 
-class _PostPageState extends State<PostPage> {
+class _EditarPostPageState extends State<EditarPostPage> {
   TextEditingController controldetalle = TextEditingController();
   FirestoreController control = Get.find();
   LoginController user = Get.find();
@@ -20,6 +25,8 @@ class _PostPageState extends State<PostPage> {
 
   ImagePicker picker = ImagePicker();
   var _image;
+  var _imagen;
+  var urlphoto;
 
   _galeria() async {
     XFile? image =
@@ -43,9 +50,30 @@ class _PostPageState extends State<PostPage> {
   }
 
   @override
+  void initState() {
+    controldetalle =
+        TextEditingController(text: widget.post[widget.index]['detalle']);
+    _imagen = widget.post[widget.index]['photoPost'];
+    print("Tipo: ${_imagen}");
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new MyAppBar().getAppBar(context),
+      appBar: AppBar(
+        title: Text("Editar Estado"),
+        actions: [
+          IconButton(
+              tooltip: 'Eliminar Estado',
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                //controlestados.eliminarPost(estado[pos].id);
+                Get.back();
+              })
+        ],
+      ),
       body: Container(
         padding: EdgeInsets.all(10.0),
         child: Center(
@@ -56,7 +84,7 @@ class _PostPageState extends State<PostPage> {
                   backgroundImage: NetworkImage(user.photo),
                   backgroundColor: Colors.transparent,
                 ),
-                title: Text(user.userEmail()),
+                title: Text(widget.post[widget.index]['email']),
                 subtitle: Text('Secondary Text'),
               ),
               Center(
@@ -69,19 +97,20 @@ class _PostPageState extends State<PostPage> {
                     height: 200,
                     width: double.maxFinite,
                     child: Card(
-                      elevation: 5,
-                      child: _image != null
-                          ? Image.file(
-                              _image,
-                              width: 100,
-                              height: 150,
-                              fit: BoxFit.fitHeight,
-                            )
-                          : Icon(
-                              Icons.camera_alt_rounded,
-                              size: 100,
-                            ),
-                    ),
+                        elevation: 5,
+                        child: _image != null
+                            ? Image.file(
+                                _image,
+                                width: 100,
+                                height: 150,
+                                fit: BoxFit.fitHeight,
+                              )
+                            : Image.network(
+                                _imagen,
+                                width: 100,
+                                height: 150,
+                                fit: BoxFit.fitHeight,
+                              )),
                   ),
                 ),
               ),
@@ -93,21 +122,28 @@ class _PostPageState extends State<PostPage> {
               ),
               TextField(
                 controller: controldetalle,
+                maxLines: null,
                 decoration: InputDecoration(labelText: "Descripcion"),
               ),
               ElevatedButton(
-                child: Text("Publicar"),
+                child: Text("Actualizar"),
                 onPressed: () {
+                  if (_image != null) {
+                    urlphoto = _image;
+                  } else {
+                    urlphoto = null;
+                  }
                   var post = <String, dynamic>{
                     'detalle': controldetalle.text,
                     'estado': true,
                     'photo': user.photo,
                     'email': user.userf,
                     'uid': user.getUid(),
-                    'photoPost': ''
+                    'photoPost': _imagen,
                   };
 
-                  control.createPost(post, _image);
+                  control.updatePost(
+                      widget.post[widget.index].id, post, urlphoto);
                   Get.back();
                 },
               ),

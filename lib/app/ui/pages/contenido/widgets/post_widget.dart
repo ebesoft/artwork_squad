@@ -1,5 +1,7 @@
 import 'package:artwork_squad/app/ui/pages/comment/commentDetail.dart';
+import 'package:artwork_squad/app/ui/pages/post/editar_post.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 // Devuelve la plantilla que contiene los valores.
 class PostWidget extends StatelessWidget {
@@ -63,6 +65,19 @@ class PostWidget extends StatelessWidget {
                                         return CommentDetailPage();
                                       }));
                                     }),
+                                (uid == post[index]['uid'])
+                                    ? IconButton(
+                                        icon: Icon(Icons.edit),
+                                        onPressed: () {
+                                          Get.to(
+                                            () => EditarPostPage(
+                                              post: post,
+                                              index: index,
+                                              iddoc: post[index].id,
+                                            ),
+                                          );
+                                        })
+                                    : Text(""),
                               ],
                             ),
                           ],

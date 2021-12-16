@@ -47,8 +47,8 @@ class FirestoreController extends GetxController {
     var url = '';
     if (photoPost != null)
       url = await cargarfoto(photoPost, DateTime.now().toString());
-    print(url);
-    photoPost['photoPost'] = url.toString();
+    //print(url);
+    post['photoPost'] = url.toString();
 
     await _db.collection('post').doc().set(post).catchError((e) {
       print(e);
@@ -57,7 +57,14 @@ class FirestoreController extends GetxController {
   }
 
 //'MWPy56bgx9wYBzul88rR'
-  Future<void> updatePost(String id, Map<String, dynamic> post) async {
+  Future<void> updatePost(
+      String id, Map<String, dynamic> post, photoPost) async {
+    var url = '';
+    if (photoPost != null) {
+      url = await cargarfoto(photoPost, DateTime.now().toString());
+      //print(url);
+      post['photoPost'] = url.toString();
+    }
     await _db.collection('post').doc(id).update(post).catchError((e) {
       print(e);
     });
