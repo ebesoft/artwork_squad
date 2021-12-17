@@ -104,7 +104,9 @@ class _PostWidgetState extends State<PostWidget> {
                                                 MaterialPageRoute(
                                                     builder: (context) {
                                               return CommentDetailPage(
-                                                  iddoc: widget.post[index].id);
+                                                  iddoc: widget.post[index].id,
+                                                  counterComment: widget
+                                                      .post[index]['comment']);
                                             }));
                                           }),
                                       Text(widget.post[index]['comment']

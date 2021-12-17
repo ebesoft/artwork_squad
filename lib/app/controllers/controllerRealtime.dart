@@ -22,7 +22,7 @@ class RealtimeController extends GetxController {
   }
 
   void createCommentPost(CommentUsers comentario, iddoc) {
-    _comment.child(iddoc).set(comentario.toJson());
+    _comment.child(iddoc).push().set(comentario.toJson());
   }
 
   // Comprueba que el usuario ya tiene like en el post y devuelve el estado.
@@ -41,9 +41,10 @@ class RealtimeController extends GetxController {
 
   Future<Map> getComment(id) async {
     final comentario = await _comment.child(id).once();
-
+    //print("Iddoc: $id");
     if (comentario.value != null) {
       Map<dynamic, dynamic> values = comentario.value!;
+      //print("Iddoc: $values");
       return values;
     }
     return Map();

@@ -79,10 +79,11 @@ class FirestoreController extends GetxController {
     //return true;
   }
 
-  Future<void> commentPost(
-      String id, Map<String, dynamic> post, comment) async {
-    post['comment'] = comment;
-    await _db.collection('post').doc(id).update(post).catchError((e) {
+  Future<void> commentPost(String id, comment) async {
+    await _db
+        .collection('post')
+        .doc(id)
+        .update({'comment': comment}).catchError((e) {
       print(e);
     });
     //return true;

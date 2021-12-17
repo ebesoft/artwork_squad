@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:artwork_squad/app/data/models/chatMessageModel.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -56,19 +58,17 @@ class ChatDetailController extends GetxController {
     final _keySala = _salaChat.push().key;
     _salaChat.child(_keySala).set(sala.toJson());
 
-    //String mGroupId = mGroupRef.Push().getKey();
     // pasar el id de la sala para crear a los usuarios con la misma sala.
     //print("Key : ${_keySala}");
     final userChat = UserChat(_keySala);
-    guardarUserSala(userChat, uid);
-    guardarUserSala(userChat, id);
+
+    guardarUserSala(_keySala, uid);
+    guardarUserSala(_keySala, id);
   }
 
-  void guardarUserSala(UserChat userSala, uid) {
-    _userChat.child(uid).set(userSala.toJson());
+  void guardarUserSala(String userSala, uid) {
+    _userChat.child(uid).update({userSala: userSala});
   }
-
-  /*Query getMensajes() => _mensajesRef;*/
 
   Future<Map> getMensajesDetail(id) async {
     final mensajes = await _mensajesRef.child(id).once();
@@ -80,16 +80,6 @@ class ChatDetailController extends GetxController {
     return Map();
   }
 
-  /*
-  getMensajesDetail(id) {
-    final mensajes = _mensajesRef.child(id).once();
-    print("Mensajes ${id}");
-    if (mensajes != null) {
-      return mensajes;
-    }
-    return Map();
-  }
-*/
   Query getSala(uidSala) => _salaChat.child(uidSala);
 
   Query getUsuario(id) => _usuarios.child(id);
@@ -117,14 +107,26 @@ class ChatDetailController extends GetxController {
   }
 
   // Comprueba que el usuario incio chat y devuelve la sala
-  Future<String> getuserChatSala(id) async {
+  Future getuserChatSala(id) async {
     String _userSala;
+    List datos = [];
+    var info;
+    print("ID UserChat ${id}");
     //Información de la sala de los usuarios.
     final snapshot = await _userChat.child(id).once();
     if (snapshot.value != null) {
       Map<dynamic, dynamic> values = snapshot.value!;
-      values.forEach((key, values) {
-        //print("VER ERROR 1 ${key}");
+      values.forEach((key, values) async {
+        final informacion = await _salaChat.child(key).once();
+        datos.clear();
+        print("VER ERROR 1 ${informacion.value}");
+        datos.add(informacion.value);
+      });
+      //final datosSala = _salaChat.child(values.keys).once();
+
+      /*
+      values.forEach((key, values) async {
+        print("VER ERROR 1 ${key}");
         //_userSala = snapshot.value[0].toString();
         _userSala = key;
         _salaChat.child(_userSala).once().then((data) {
@@ -132,20 +134,30 @@ class ChatDetailController extends GetxController {
           _uid.value = data.key;
           _userUid1.value = data.value['members'][0];
           _userUid2.value = data.value['members'][1];
+          final info = data.value;
+          print("User Info ${info}}");
+          //return Future.value(info);
         });
-
+       
         // Uid de usuarios en la sala
         if (_userSala == _uid.value) {
           //print("User uid ${_userUid1.value}, $id");
           if (id == _userUid1.value || id == _userUid2.value) {
             //print("User sala $_userSala, ${_uid.value}");
-            return _uid.value;
+            Map<dynamic, dynamic> datos = ({
+              'salaUid': _uid.value,
+              'userUid1': _userUid1.value,
+              'userUid2': _userUid2.value,
+            });
+            print("User Map ${info}");
+            return info;
           }
         }
-      });
+        //return datos;
+      });*/
+      print("VER ERROR 2 ${datos[0]}");
+      return datos;
     }
-
-    return _uid.value;
   }
 
   String get uidChat => _uid.value;

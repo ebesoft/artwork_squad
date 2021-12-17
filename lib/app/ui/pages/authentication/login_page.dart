@@ -49,8 +49,8 @@ class LoginPage extends GetView<LoginController> {
                 SizedBox(height: 5),
                 Flexible(
                   child: Image.network(
-                    'https://drive.google.com/uc?export=view&id=1PHWzM2FrD7BZwEe8296CGP07tP1Ie3u8',
-                    height: 250,
+                    'https://firebasestorage.googleapis.com/v0/b/artwork-squad.appspot.com/o/galeria-de-arte.png?alt=media&token=35cf5d24-7338-469c-b029-b5256e20a624',
+                    height: 150,
                   ),
                 ),
                 Text(

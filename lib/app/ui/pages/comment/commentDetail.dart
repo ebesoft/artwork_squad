@@ -1,15 +1,18 @@
 import 'package:artwork_squad/app/controllers/chatDetail_controller.dart';
 import 'package:artwork_squad/app/controllers/controllerRealtime.dart';
+import 'package:artwork_squad/app/controllers/firestore_controller.dart';
 import 'package:artwork_squad/app/controllers/login_controller.dart';
 import 'package:artwork_squad/app/data/models/commentModel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 
 // Trae el detalle del chat.
 class CommentDetailPage extends StatefulWidget {
   final String iddoc;
+  final int counterComment;
 
-  CommentDetailPage({required this.iddoc});
+  CommentDetailPage({required this.iddoc, required this.counterComment});
 
   @override
   _CommentDetailPageState createState() => _CommentDetailPageState();
@@ -19,6 +22,8 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
   LoginController loginController = Get.find();
   RealtimeController controlFirebase = Get.find();
   ChatDetailController detailChat = Get.find();
+  FirestoreController control = Get.find();
+  Logger _logger = new Logger();
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +61,6 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
                     children: <Widget>[],
                   ),
                 ),
-                Icon(
-                  Icons.settings,
-                ),
               ],
             ),
           ),
@@ -67,49 +69,6 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
       body: Stack(
         children: <Widget>[
           _getListaMensajes(),
-          /*
-          ListView.builder(
-            itemCount: messages.length,
-            shrinkWrap: true,
-            padding: EdgeInsets.only(top: 10, bottom: 10),
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Container(
-                padding:
-                    EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      color: Colors.grey[100],
-                    ),
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          messages[index].name,
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black54,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Text(
-                          messages[index].comment,
-                          style: TextStyle(fontSize: 12, color: Colors.black54),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),*/
-
           // Caja de comentario.
           Align(
             alignment: Alignment.bottomLeft,
@@ -146,21 +105,6 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
                     width: 15,
                   ),
                   _textMensaje(),
-                  /* Expanded(
-                    child: TextField(
-                      style: TextStyle(fontSize: 12.0),
-                      maxLines: null,
-                      decoration: InputDecoration(
-                        hintText: "Comentar...",
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 8.0),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey.shade100),
-                        ),
-                      ),
-                    ),
-                  ),*/
                   SizedBox(
                     width: 15,
                   ),
@@ -197,6 +141,9 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
           DateTime.now());
       controlFirebase.createCommentPost(comentario, widget.iddoc);
       detailChat.clearText();
+      //Suma a la lista de comentarios..
+      final comment = widget.counterComment + 1;
+      control.commentPost(widget.iddoc, comment);
       setState(() {});
     }
   }
@@ -237,7 +184,7 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
               lists.clear();
               Map<dynamic, dynamic> values = snapshot.data!;
               values.forEach((key, values) {
-                //_logger.i("Lista, ${key}");
+                //_logger.i("Lista, ${values}");
                 lists.add(values);
               });
               return ListView.builder(
@@ -261,9 +208,9 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              lists[index].email,
+                              lists[index]['email'],
                               style: TextStyle(
-                                  fontSize: 12,
+                                  fontSize: 16,
                                   color: Colors.black54,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -271,9 +218,11 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
                               height: 6,
                             ),
                             Text(
-                              lists[index].comment,
+                              lists[index]['comment'],
+                              maxLines: null,
                               style: TextStyle(
-                                  fontSize: 12, color: Colors.black54),
+                                  fontSize: 14, color: Colors.black54),
+                              textAlign: TextAlign.justify,
                             ),
                           ],
                         ),

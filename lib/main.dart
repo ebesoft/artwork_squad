@@ -9,9 +9,13 @@ import 'package:artwork_squad/app/controllers/post_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:workmanager/workmanager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  //Workmanager().initializer();
+
   await Firebase.initializeApp();
   Get.put(LoginController());
   Get.put(RealtimeController());
@@ -22,3 +26,5 @@ void main() async {
   Get.put(PostController());
   runApp(App());
 }
+
+void updatePositionBackground() {}
