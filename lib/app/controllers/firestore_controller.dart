@@ -71,8 +71,17 @@ class FirestoreController extends GetxController {
     //return true;
   }
 
-  Future<void> likePost(String id, like) async {
-    photoPost = like++;
+  Future<void> likePost(String id, Map<String, dynamic> post, like) async {
+    post['like'] = like;
+    await _db.collection('post').doc(id).update(post).catchError((e) {
+      print(e);
+    });
+    //return true;
+  }
+
+  Future<void> commentPost(
+      String id, Map<String, dynamic> post, comment) async {
+    post['comment'] = comment;
     await _db.collection('post').doc(id).update(post).catchError((e) {
       print(e);
     });

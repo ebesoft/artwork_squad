@@ -2,23 +2,26 @@ import 'package:artwork_squad/app/controllers/chatDetail_controller.dart';
 import 'package:artwork_squad/app/controllers/controllerRealtime.dart';
 import 'package:artwork_squad/app/controllers/login_controller.dart';
 import 'package:artwork_squad/app/data/models/chatMessageModel.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 // Trae el detalle del chat.
-class ChatDetailPage extends GetView<ChatDetailController> {
-  String chatUid;
+class ChatDetailPage extends StatefulWidget {
+  final String chatUid;
 
-  ChatDetailPage(this.chatUid);
+  ChatDetailPage({required this.chatUid});
 
+  @override
+  _ChatDetailPageState createState() => _ChatDetailPageState();
+}
+
+class _ChatDetailPageState extends State<ChatDetailPage> {
   LoginController loginController = Get.find();
   RealtimeController controlReal = Get.find();
   ChatDetailController detailChat = Get.find();
 
   Logger _logger = new Logger();
-
   @override
   Widget build(BuildContext context) {
     String imagen;
@@ -36,7 +39,7 @@ class ChatDetailPage extends GetView<ChatDetailController> {
             padding: EdgeInsets.only(right: 16),
             child: FutureBuilder<Map>(
                 future: detailChat.getuser(
-                    chatUid,
+                    widget.chatUid,
                     loginController
                         .getUid()), // a previously-obtained Future<String> or null
                 builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
@@ -46,7 +49,7 @@ class ChatDetailPage extends GetView<ChatDetailController> {
                     uidUser = snapshot.data!['email'];
                   } else {
                     imagen =
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRWXUImijoB6F3msIRS96kTHW8YpthkyaONhzthSC4v7RYUzFya";
+                        "https://firebasestorage.googleapis.com/v0/b/artwork-squad.appspot.com/o/user.png?alt=media&token=7ab87de4-fbd8-4f4b-aaaa-527521220eca";
                     email = "None";
                     uidUser = "None";
                   }
@@ -178,16 +181,16 @@ class ChatDetailPage extends GetView<ChatDetailController> {
     if (_puedoEnviarMensaje()) {
       final mensaje = ChatMessage(detailChat.mensajeController.text,
           DateTime.now(), loginController.getUid(), false);
-      detailChat.guardarMensaje(mensaje, chatUid);
+      detailChat.guardarMensaje(mensaje, widget.chatUid);
       detailChat.clearText();
+      setState(() {});
     }
   }
 
   Widget _getListaMensajes() {
-    //final Future<Map> mensajes = detailChat.getMensajesDetail(chatUid);
     return Expanded(
       child: FutureBuilder<Map>(
-          future: detailChat.getMensajesDetail(chatUid),
+          future: detailChat.getMensajesDetail(widget.chatUid),
           builder: (context, AsyncSnapshot<Map> snapshot) {
             List lists = [];
             //_logger.i("Lista, ${snapshot.data}");

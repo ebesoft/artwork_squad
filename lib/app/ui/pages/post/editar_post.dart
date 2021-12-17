@@ -141,8 +141,8 @@ class _EditarPostPageState extends State<EditarPostPage> {
                     'email': user.userf,
                     'uid': user.getUid(),
                     'photoPost': _imagen,
-                    'like': widget.post[widget.index]['email'],
-                    'comment': widget.post[widget.index]['email'],
+                    'like': widget.post[widget.index]['like'],
+                    'comment': widget.post[widget.index]['comment'],
                   };
 
                   control.updatePost(

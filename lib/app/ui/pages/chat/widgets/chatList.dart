@@ -36,7 +36,7 @@ class ChatWidget extends StatelessWidget {
                         final _chatUid = snapshot.data;
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return ChatDetailPage(_chatUid!);
+                          return ChatDetailPage(chatUid: _chatUid!);
                         }));
                       } else {
                         final lastMensaje = "Hola!!";

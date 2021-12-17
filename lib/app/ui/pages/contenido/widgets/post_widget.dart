@@ -1,4 +1,5 @@
 import 'package:artwork_squad/app/controllers/controllerRealtime.dart';
+import 'package:artwork_squad/app/controllers/firestore_controller.dart';
 import 'package:artwork_squad/app/controllers/login_controller.dart';
 import 'package:artwork_squad/app/controllers/post_controller.dart';
 import 'package:artwork_squad/app/ui/pages/comment/commentDetail.dart';
@@ -26,6 +27,7 @@ class _PostWidgetState extends State<PostWidget> {
   RealtimeController controlFirebase = Get.find();
   LoginController loginController = Get.find();
   PostController controlPost = Get.find();
+  FirestoreController controlFirestore = Get.find();
   Logger _logger = new Logger();
 
   @override
@@ -39,7 +41,17 @@ class _PostWidgetState extends State<PostWidget> {
           final Future _likeVal = controlFirebase.getLike(
               widget.post[index].id, loginController.getUid());
           //_logger.i("Valor esperado: ${_like}");
-          //
+
+          var post = <String, dynamic>{
+            'detalle': widget.post[index]['detalle'],
+            'estado': true,
+            'photo': widget.post[index]['photo'],
+            'email': widget.post[index]['email'],
+            'uid': widget.post[index]['uid'],
+            'photoPost': widget.post[index]['photoPost'],
+            'like': widget.post[index]['like'],
+            'comment': widget.post[index]['comment'],
+          };
 
           return FutureBuilder<dynamic>(
               future: _likeVal, // a previously-obtained Future<String> or null
@@ -78,37 +90,10 @@ class _PostWidgetState extends State<PostWidget> {
                                   ),
                                   ButtonBar(
                                     alignment: MainAxisAlignment.start,
-                                    children: [
-                                      (like == true)
-                                          ? IconButton(
-                                              iconSize: 15,
-                                              color: Colors.red,
-                                              icon:
-                                                  Icon(Icons.favorite_rounded),
-                                              onPressed: () {
-                                                controlFirebase.createLikePost(
-                                                    widget.post[index].id,
-                                                    widget.uid,
-                                                    false);
-                                                setState(() {});
-                                              })
-                                          : IconButton(
-                                              iconSize: 15,
-                                              icon: Icon(
-                                                  Icons.favorite_outline_sharp),
-                                              onPressed: () {
-                                                controlFirebase.createLikePost(
-                                                    widget.post[index].id,
-                                                    widget.uid,
-                                                    true);
-                                                //controlPost.cambiolike();
-                                                setState(() {});
-                                              }),
+                                    children: <Widget>[
+                                      _getMegusta(like, index, post),
                                       Text(widget.post[index]['like']
                                           .toString()),
-                                      //Text(
-                                      //    controlPost.numLike.value.toString()),
-
                                       IconButton(
                                           padding: const EdgeInsets.all(5.0),
                                           iconSize: 15,
@@ -118,7 +103,8 @@ class _PostWidgetState extends State<PostWidget> {
                                             Navigator.push(context,
                                                 MaterialPageRoute(
                                                     builder: (context) {
-                                              return CommentDetailPage();
+                                              return CommentDetailPage(
+                                                  iddoc: widget.post[index].id);
                                             }));
                                           }),
                                       Text(widget.post[index]['comment']
@@ -159,5 +145,32 @@ class _PostWidgetState extends State<PostWidget> {
                 );
               });
         });
+  }
+
+  Widget _getMegusta(like, index, post) {
+    return (like == true)
+        ? IconButton(
+            iconSize: 15,
+            color: Colors.red,
+            icon: Icon(Icons.favorite_rounded),
+            onPressed: () {
+              controlFirebase.createLikePost(
+                  widget.post[index].id, widget.uid, false);
+
+              final megusta = widget.post[index]['like'] - 1;
+              controlFirestore.likePost(widget.post[index].id, post, megusta);
+
+              setState(() {});
+            })
+        : IconButton(
+            iconSize: 15,
+            icon: Icon(Icons.favorite_outline_sharp),
+            onPressed: () {
+              controlFirebase.createLikePost(
+                  widget.post[index].id, widget.uid, true);
+              final megusta = widget.post[index]['like'] + 1;
+              controlFirestore.likePost(widget.post[index].id, post, megusta);
+              setState(() {});
+            });
   }
 }

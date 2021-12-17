@@ -1,15 +1,17 @@
 import 'package:artwork_squad/app/controllers/chatDetail_controller.dart';
+import 'package:artwork_squad/app/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class CommentWidget extends StatelessWidget {
-  final String comentario;
+  final String sendBy;
+  final String comment;
   final DateTime fecha;
-  final String idcomment;
-  final String uid;
 
-  CommentWidget(this.comentario, this.fecha, this.idcomment, this.uid);
+  CommentWidget(this.sendBy, this.comment, this.fecha);
+
+  LoginController loginController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class CommentWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    uid,
+                    sendBy,
                     style: TextStyle(
                         fontSize: 12,
                         color: Colors.black54,
@@ -43,7 +45,7 @@ class CommentWidget extends StatelessWidget {
                     height: 6,
                   ),
                   Text(
-                    comentario,
+                    comment,
                     style: TextStyle(fontSize: 12, color: Colors.black54),
                   ),
                 ],
