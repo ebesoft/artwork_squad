@@ -1,3 +1,4 @@
+import 'package:artwork_squad/app/bindings/arte_bindings.dart';
 import 'package:artwork_squad/app/bindings/chat_binding.dart';
 import 'package:artwork_squad/app/bindings/home_binding.dart';
 import 'package:artwork_squad/app/bindings/location_binding.dart';
@@ -11,6 +12,7 @@ import 'package:artwork_squad/app/ui/pages/contenido/home_page.dart';
 import 'package:artwork_squad/app/ui/pages/location/location_screen.dart';
 import 'package:artwork_squad/app/ui/pages/notifications/notification_page.dart';
 import 'package:artwork_squad/app/ui/pages/post/post_page.dart';
+import 'package:artwork_squad/app/ui/pages/response/response_page.dart';
 import 'package:get/get.dart';
 part './app_routes.dart';
 
@@ -49,6 +51,11 @@ abstract class AppPages {
         name: Routes.POST,
         page: () => PostPage(),
         binding: PostBinding(),
+        transition: Transition.zoom),
+    GetPage(
+        name: Routes.ARTE,
+        page: () => ResponsePage(),
+        binding: ArteBinding(),
         transition: Transition.zoom),
   ];
 }

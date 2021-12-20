@@ -70,6 +70,13 @@ class MyAppBar {
                   Get.toNamed(Routes.CHAT);
                 })),
         Padding(
+            padding: EdgeInsets.symmetric(horizontal: 2),
+            child: IconButton(
+                icon: Icon(Icons.art_track_rounded),
+                onPressed: () {
+                  Get.toNamed(Routes.ARTE);
+                })),
+        Padding(
           padding: EdgeInsets.symmetric(horizontal: 2),
           child: IconButton(
               icon: Icon(Icons.logout_outlined),

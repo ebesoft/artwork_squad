@@ -9,4 +9,5 @@ abstract class Routes {
   static const POST = '/post';
   static const NOTIFICATION = '/notification';
   static const LOCATION = '/location';
+  static const ARTE = '/arte';
 }
