@@ -12,6 +12,10 @@ class ChatDetailController extends GetxController {
   late Rx<dynamic> _userUid2 = "".obs;
   late Rx<dynamic> _receptor = "".obs;
   late Rx<dynamic> _dataUser = "".obs;
+  late Rx<dynamic> _dataSala = "".obs;
+  late Rx<dynamic> _newSala = "".obs;
+
+  String get uidSala => _newSala.value;
 
   // Estado inicial
   @override
@@ -54,7 +58,7 @@ class ChatDetailController extends GetxController {
     _mensajesRef.child(chatUid).push().set(mensaje.toJson());
   }
 
-  void guardarSala(ChatSala sala, uid, id) {
+  void guardarSala(ChatSala sala, uid1, uid2) {
     final _keySala = _salaChat.push().key;
     _salaChat.child(_keySala).set(sala.toJson());
 
@@ -62,12 +66,22 @@ class ChatDetailController extends GetxController {
     //print("Key : ${_keySala}");
     final userChat = UserChat(_keySala);
 
-    guardarUserSala(_keySala, uid);
-    guardarUserSala(_keySala, id);
+    _newSala.value = _keySala;
+
+    // uid Usuario Logueado, id Usuario de la lista
+    guardarUserSala(_keySala, uid1);
+    guardarUserSala(_keySala, uid2);
+    updateUsuario(_keySala, uid1, uid2);
+    updateUsuario(_keySala, uid2, uid1);
   }
 
   void guardarUserSala(String userSala, uid) {
     _userChat.child(uid).update({userSala: userSala});
+  }
+
+// Actualiza usuario con datos de las salas de chat.
+  void updateUsuario(String chat, String uidUser, uid) {
+    _usuarios.child(uidUser).child('chat').update({uid: chat});
   }
 
   Future<Map> getMensajesDetail(id) async {
@@ -107,70 +121,33 @@ class ChatDetailController extends GetxController {
   }
 
   // Comprueba que el usuario incio chat y devuelve la sala
-  Future getuserChatSala(id) async {
-    String _userSala;
-    List datos = [];
-    var info;
-    print("ID UserChat ${id}");
-    //Información de la sala de los usuarios.
-    final snapshot = await _userChat.child(id).once();
-    if (snapshot.value != null) {
-      Map<dynamic, dynamic> values = snapshot.value!;
-      values.forEach((key, values) async {
-        final informacion = await _salaChat.child(key).once();
-        datos.clear();
-        print("VER ERROR 1 ${informacion.value}");
-        datos.add(informacion.value);
-      });
-      //final datosSala = _salaChat.child(values.keys).once();
-
-      /*
-      values.forEach((key, values) async {
-        print("VER ERROR 1 ${key}");
-        //_userSala = snapshot.value[0].toString();
-        _userSala = key;
-        _salaChat.child(_userSala).once().then((data) {
-          //print("ver salas: ${data.value}");
-          _uid.value = data.key;
-          _userUid1.value = data.value['members'][0];
-          _userUid2.value = data.value['members'][1];
-          final info = data.value;
-          print("User Info ${info}}");
-          //return Future.value(info);
-        });
-       
-        // Uid de usuarios en la sala
-        if (_userSala == _uid.value) {
-          //print("User uid ${_userUid1.value}, $id");
-          if (id == _userUid1.value || id == _userUid2.value) {
-            //print("User sala $_userSala, ${_uid.value}");
-            Map<dynamic, dynamic> datos = ({
-              'salaUid': _uid.value,
-              'userUid1': _userUid1.value,
-              'userUid2': _userUid2.value,
-            });
-            print("User Map ${info}");
-            return info;
-          }
-        }
-        //return datos;
-      });*/
-      print("VER ERROR 2 ${datos[0]}");
-      return datos;
-    }
-  }
 
   String get uidChat => _uid.value;
 
-  Future<String> getChat(id) async {
-    String _chat;
-    final snapshot = await _salaChat.child(id).once();
-    _chat = snapshot.value[0];
-    //print("Sala: $_chat");
-    return _chat;
-  }
-
   clearText() {
     mensajeController.clear();
+  }
+
+// No usada
+  Future getChat(idsala, String iduser) async {
+    //var _chat = "";
+    //print("Ver id sala: ${idsala.values}, $iduser");
+
+    idsala.forEach((key, values) async {
+      //print("Lista, ${key}");
+      final snapshot = await _salaChat.child(key).once();
+      //print("Miembros, ${snapshot.value[0]}");
+      final usua_one = snapshot.value['members'][0];
+      final usua_two = snapshot.value['members'][1];
+      // Se comprueba que el usuario comparta la misma sala.
+      if (iduser == usua_one || iduser == usua_two) {
+        _dataSala.value = key;
+        _newSala.value = key;
+        //_chat = key;
+        print("Chat, ${_dataSala.value}, ${iduser}, ${usua_one},  ${usua_two}");
+      }
+    });
+
+    return _dataSala.value;
   }
 }

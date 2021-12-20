@@ -101,6 +101,12 @@ class LoginController extends GetxController {
     return email;
   }
 
+  String userCurrent() {
+    String photo = FirebaseAuth.instance.currentUser!.photoURL ??
+        "https://firebasestorage.googleapis.com/v0/b/artwork-squad.appspot.com/o/user.png?alt=media&token=7ab87de4-fbd8-4f4b-aaaa-527521220eca";
+    return photo;
+  }
+
   String getUid() {
     String uid = FirebaseAuth.instance.currentUser!.uid;
     return uid;

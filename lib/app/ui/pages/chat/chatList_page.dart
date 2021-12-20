@@ -78,11 +78,19 @@ class ChatPage extends GetView<ChatController> {
       child: FirebaseAnimatedList(
         query: listUsers.getUsers(),
         itemBuilder: (context, snapshot, animation, index) {
-          final json = snapshot.value as Map<dynamic, dynamic>;
-
-          final usuarios = UserModel.fromJson(json);
-          //_logger.i('Users id ${usuarios.id}');
-          return ChatWidget(usuarios.email, usuarios.id, usuarios.imgUrl);
+          //final json = snapshot.value as Map<dynamic, dynamic>;
+          //_logger.i('Users Sla ${snapshot.value['chat']}');
+          //final usuarios = UserModel.fromJson(json);
+          //_logger.i('Users id ${usuarios}');
+          List data = [];
+          data.clear();
+          Map<dynamic, dynamic> values = snapshot.value!;
+          values.forEach((key, values) {
+            //_logger.i("Lista, ${key}");
+            data.add(snapshot.value);
+          });
+          //return ChatWidget(usuarios.email, usuarios.id, usuarios.imgUrl);
+          return ChatWidget(usuarios: data);
         },
       ),
     );

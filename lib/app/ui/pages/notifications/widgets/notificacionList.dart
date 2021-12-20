@@ -17,6 +17,7 @@ class NotificationList extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         itemCount: estados.length == 0 ? 0 : estados.length,
         itemBuilder: (context, posicion) {
+          //print("ver Lista: ${estados.length}");
           return GestureDetector(
             onTap: () {
               if (uidrf == estados[posicion]['uid']) {
@@ -62,7 +63,7 @@ class NotificationList extends StatelessWidget {
                                             //overflow: TextOverflow.ellipsis,
                                             maxLines: 2,
                                             textAlign: TextAlign.justify,
-                                            //style: TextStyle(fontSize: 16),
+                                            style: TextStyle(fontSize: 20),
                                           ),
                                           SizedBox(
                                             height: 5,
@@ -73,7 +74,7 @@ class NotificationList extends StatelessWidget {
                                             overflow: TextOverflow.ellipsis,
                                             textAlign: TextAlign.justify,
                                             style: TextStyle(
-                                                fontSize: 13,
+                                                fontSize: 15,
                                                 color: Colors.grey.shade600,
                                                 fontWeight: estados[posicion]
                                                         ['estado']

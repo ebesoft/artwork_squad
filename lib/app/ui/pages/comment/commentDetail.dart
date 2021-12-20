@@ -54,13 +54,14 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
                 SizedBox(
                   width: 12,
                 ),
+                /*
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[],
                   ),
-                ),
+                ),*/
               ],
             ),
           ),
@@ -81,15 +82,15 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
                 ),
               ),
               padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-              height: 60,
+              height: 80,
               width: double.infinity,
               child: Row(
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {},
                     child: Container(
-                      height: 30,
-                      width: 30,
+                      height: 40,
+                      width: 40,
                       decoration: BoxDecoration(
                         color: Colors.lightBlue,
                         borderRadius: BorderRadius.circular(30),
@@ -97,7 +98,7 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
                       child: Icon(
                         Icons.add,
                         color: Colors.white,
-                        size: 20,
+                        size: 15,
                       ),
                     ),
                   ),
@@ -115,7 +116,7 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
                     child: Icon(
                       Icons.send,
                       color: Colors.white,
-                      size: 18,
+                      size: 15,
                     ),
                     backgroundColor: Colors.blue,
                     elevation: 0,
@@ -155,7 +156,7 @@ class _CommentDetailPageState extends State<CommentDetailPage> {
         controller: detailChat.mensajeController,
         //onChanged: (detailChat.mensajeController.text),
         style: TextStyle(
-          fontSize: 12.0,
+          fontSize: 14.0,
           color: Colors.black,
         ),
         maxLines: null,

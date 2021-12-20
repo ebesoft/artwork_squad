@@ -81,8 +81,9 @@ class MyAppBar {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 2),
           child: CircleAvatar(
-            backgroundImage: NetworkImage(
-                'https://elrincondeldchome.files.wordpress.com/2019/06/joe-west.jpg?w=500'),
+            //backgroundImage: NetworkImage(
+            //    'https://elrincondeldchome.files.wordpress.com/2019/06/joe-west.jpg?w=500'),
+            backgroundImage: NetworkImage(loginController.userCurrent()),
             backgroundColor: Colors.transparent,
           ),
         ),

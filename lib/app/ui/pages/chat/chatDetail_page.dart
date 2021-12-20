@@ -118,15 +118,15 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 ),
               ),
               padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-              height: 60,
+              height: 80,
               width: double.infinity,
               child: Row(
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {},
                     child: Container(
-                      height: 30,
-                      width: 30,
+                      height: 40,
+                      width: 40,
                       decoration: BoxDecoration(
                         color: Colors.lightBlue,
                         borderRadius: BorderRadius.circular(30),
@@ -146,19 +146,12 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                     width: 15,
                   ),
                   IconButton(
-                    //FloatingActionButton(
-
-                    //onPressed: () {
-                    // _enviarMensaje();
-                    //controlReal.createData(
-                    //    _mensajeController.text, loginController.uidrf);
-                    //},
                     icon: Icon(
                       _puedoEnviarMensaje()
                           ? Icons.send
                           : Icons.send_and_archive_rounded,
                       color: Colors.blue,
-                      size: 25,
+                      size: 30,
                     ),
                     onPressed: () {
                       _enviarMensaje();
@@ -240,7 +233,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 },
               );
             }
-            return Text("Sin mensajes");
+            return CircularProgressIndicator();
           }),
     );
   }
@@ -252,14 +245,15 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
         controller: detailChat.mensajeController,
         //onChanged: (detailChat.mensajeController.text),
         style: TextStyle(
-          fontSize: 12.0,
+          fontSize: 14.0,
           color: Colors.black,
+          height: 2,
         ),
         maxLines: null,
         decoration: InputDecoration(
           hintText: "Escribir...",
           contentPadding:
-              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
+              const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: Colors.grey.shade100),
