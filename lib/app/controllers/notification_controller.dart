@@ -17,14 +17,13 @@ class NotificationController extends GetxController {
     // TODO: implement onInit
 
     String argumento = 'no-data';
-    if (Platform.isAndroid ){
-      argumento = info ['chat'] ['post'] ['location'] ?? 'No-dada'
+    if (Platform.isAndroid) {
+      argumento = info['chat']['post']['location'] ?? 'No-data';
     } else {
-      argumento = info [post] ?? 'No-data-ios'
+      argumento = info['post'] ?? 'No-data-ios';
     }
 
     _mensajeStreamControler.sink.add(argumento);
-
 
     super.onInit();
   }
@@ -35,10 +34,10 @@ class NotificationController extends GetxController {
     // TODO: implement onReady
 
     String argumento = 'no-data';
-    if (Platform.isAndroid ){
-      argumento = info ['chat'] ['post'] ['location'] ?? 'No-dada';
+    if (Platform.isAndroid) {
+      argumento = info['chat']['post']['location'] ?? 'No-data';
     } else {
-      argumento = info ['post'] ?? 'No-data-ios';
+      argumento = info['post'] ?? 'No-data-ios';
     }
 
     _mensajeStreamControler.sink.add(argumento);
@@ -51,11 +50,11 @@ class NotificationController extends GetxController {
   void onClose() {
     // TODO: implement onClose
 
-String argumento = 'no-data';
-    if (Platform.isAndroid ){
-      argumento = info ['chat'] ['post'] ['location'] ?? 'No-dada';
+    String argumento = 'no-data';
+    if (Platform.isAndroid) {
+      argumento = info['chat']['post']['location'] ?? 'No-data';
     } else {
-      argumento = info ['post'] ?? 'No-data-ios';
+      argumento = info['post'] ?? 'No-data-ios';
     }
 
     _mensajeStreamControler.sink.add(argumento);
@@ -64,6 +63,7 @@ String argumento = 'no-data';
   }
 }
 
+// ignore: camel_case_types
 class _mensajeStreamControler {
   static var sink;
 }
