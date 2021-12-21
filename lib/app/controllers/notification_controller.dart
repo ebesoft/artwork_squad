@@ -8,6 +8,8 @@ class NotificationController extends GetxController {
   Rx<dynamic> controltitulo = "".obs;
   Rx<dynamic> controldetalle = "".obs;
 
+  get info => null;
+
   // Estado inicial
   @override
   void onInit() {
@@ -34,9 +36,9 @@ class NotificationController extends GetxController {
 
     String argumento = 'no-data';
     if (Platform.isAndroid ){
-      argumento = info ['chat'] ['post'] ['location'] ?? 'No-dada'
+      argumento = info ['chat'] ['post'] ['location'] ?? 'No-dada';
     } else {
-      argumento = info [post] ?? 'No-data-ios'
+      argumento = info ['post'] ?? 'No-data-ios';
     }
 
     _mensajeStreamControler.sink.add(argumento);
@@ -51,13 +53,17 @@ class NotificationController extends GetxController {
 
 String argumento = 'no-data';
     if (Platform.isAndroid ){
-      argumento = info ['chat'] ['post'] ['location'] ?? 'No-dada'
+      argumento = info ['chat'] ['post'] ['location'] ?? 'No-dada';
     } else {
-      argumento = info [post] ?? 'No-data-ios'
+      argumento = info ['post'] ?? 'No-data-ios';
     }
 
     _mensajeStreamControler.sink.add(argumento);
 
     super.onClose();
   }
+}
+
+class _mensajeStreamControler {
+  static var sink;
 }
