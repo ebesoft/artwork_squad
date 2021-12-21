@@ -1,7 +1,10 @@
+import 'dart:html';
+
 import 'package:artwork_squad/app/bindings/login_binding.dart';
 import 'package:artwork_squad/app/data/blocs/theme.dart';
 import 'package:artwork_squad/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
