@@ -108,15 +108,15 @@ class FirestoreController extends GetxController {
     return url.toString();
   }
 
-  // Locations
-  Stream<QuerySnapshot> readLocation() {
-    CollectionReference listado = _db.collection('location');
+  //control ubicacion
+  Stream<QuerySnapshot> readLocations() {
+    CollectionReference listado = _db.collection('ubicacion');
 
     return listado.snapshots();
   }
 
-  Future<void> createLocation(Map<String, dynamic> location) async {
-    await _db.collection('location').doc().set(location).catchError((e) {
+  Future<void> guardarubicacion(Map<String, dynamic> ubicacion, uid) async {
+    await _db.collection('ubicacion').doc(uid).set(ubicacion).catchError((e) {
       print(e);
     });
     //return true;
@@ -124,14 +124,14 @@ class FirestoreController extends GetxController {
 
 //'MWPy56bgx9wYBzul88rR'
   Future<void> updateLocation(String id, Map<String, dynamic> location) async {
-    await _db.collection('location').doc(id).update(location).catchError((e) {
+    await _db.collection('ubicacion').doc(id).update(location).catchError((e) {
       print(e);
     });
     //return true;
   }
 
   Future<void> eliminarLocation(String id) async {
-    await _db.collection('location').doc(id).delete().catchError((e) {
+    await _db.collection('ubicacion').doc(id).delete().catchError((e) {
       print(e);
     });
     //return true;

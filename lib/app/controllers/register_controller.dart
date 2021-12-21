@@ -7,10 +7,14 @@ class RegisterController extends GetxController {
   final FirebaseAuth auth = FirebaseAuth.instance;
   late Rx<dynamic> _usuarior = "Sin Registro".obs;
   late Rx<dynamic> _uid = "0".obs;
+  late Rx<dynamic> _name = "".obs;
+  
   late Rx<dynamic> _photo =
       "https://firebasestorage.googleapis.com/v0/b/artwork-squad.appspot.com/o/user.png?alt=media&token=7ab87de4-fbd8-4f4b-aaaa-527521220eca"
           .obs;
   String get userf => _usuarior.value;
+  
+  String get name => _name.value;
 
   final DatabaseReference _usersRef =
       FirebaseDatabase.instance.reference().child('Users');
@@ -21,6 +25,7 @@ class RegisterController extends GetxController {
           .createUserWithEmailAndPassword(email: email, password: password);
       _usuarior.value = usuario.user!.email;
       _uid.value = usuario.user!.uid;
+      _name.value = usuario.user!.email;
       //_photo.value = usuario.user!.photoURL;
       //print("Error ${usuario.user!.photoURL}");
       if (usuario.user!.photoURL != null) {

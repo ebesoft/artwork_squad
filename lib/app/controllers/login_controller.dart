@@ -5,11 +5,15 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginController extends GetxController {
+
   static FirebaseAuth auth = FirebaseAuth.instance;
   late Rx<dynamic> _usuario = "Sin Registro".obs;
   late Rx<dynamic> _uid = "0".obs;
+  late Rx<dynamic> _name = "".obs;
+
   String get userf => _usuario.value;
   String get uidrf => _uid.value;
+  String get name => _name.value;
   late Rx<dynamic> _photo =
       "https://firebasestorage.googleapis.com/v0/b/artwork-squad.appspot.com/o/user.png?alt=media&token=7ab87de4-fbd8-4f4b-aaaa-527521220eca"
           .obs;
@@ -26,6 +30,7 @@ class LoginController extends GetxController {
 
       _usuario.value = usuario.user!.email;
       _uid.value = usuario.user!.uid;
+      _name.value = usuario.user!.email;
 
       //_validarUid.value = await getUser(_uid.value);
       //print("Usuario Existe: ${await getUser(_uid.value)}");

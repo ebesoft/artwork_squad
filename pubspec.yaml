@@ -30,6 +30,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.4
+  url_launcher: ^6.0.17
+  location: ^4.3.0
+  flutter_local_notifications: ^9.1.5
+
 
   # Provider
   provider: ^6.0.1
@@ -49,6 +53,7 @@ dependencies:
   font_awesome_flutter: ^9.2.0
   # flutter_local_notifications: ^9.1.5
   image_picker: ^0.8.4+1
+
 
   # GetX es una solución extra ligera y potente para Flutter. 
   # Combina la gestión de estado de alto rendimiento, 
